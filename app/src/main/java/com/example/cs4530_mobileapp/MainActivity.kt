@@ -1,58 +1,120 @@
 package com.example.cs4530_mobileapp
 
-import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.content.ActivityNotFoundException
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import com.example.cs4530_mobileapp.databinding.ActivityMainBinding
+import android.os.Bundle
+import android.content.Intent
+import android.provider.MediaStore
+import android.graphics.Bitmap
+import android.os.Build
+import android.view.View
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 
-class MainActivity : AppCompatActivity() {
+//Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+    //Create variables to hold the three strings
+    private var mFullName: String? = null
+    private var mFirstName: String? = null
+    private var mLastName: String? = null
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    //Create variables for the UI elements that we need to control
+    private var mTvFirstName: TextView? = null
+    private var mTvLastName: TextView? = null
+    private var mButtonSubmit: Button? = null
+    private var mButtonCamera: Button? = null
+    private var mEtFullName: EditText? = null
 
+    //Create the variable for the ImageView that holds the profile pic
+    private var mIvPic: ImageView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        //Get the text views where we will display names
+        mTvFirstName = findViewById(R.id.tv_fn_data)
+        mTvLastName = findViewById(R.id.tv_ln_data)
 
-        setSupportActionBar(binding.toolbar)
+        //Get the buttons
+        mButtonSubmit = findViewById(R.id.button_submit)
+        mButtonCamera = findViewById(R.id.button_pic)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //Say that this class itself contains the listener.
+        mButtonSubmit!!.setOnClickListener(this)
+        mButtonCamera!!.setOnClickListener(this)
+    }
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+    //Handle clicks for ALL buttons here
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.button_submit -> {
+
+                //First, get the string from the EditText
+                mEtFullName = findViewById(R.id.et_name)
+                mFullName = mEtFullName!!.text.toString()
+
+                //Check if the EditText string is empty
+                if (mFullName.isNullOrBlank()) {
+                    //Complain that there's no text
+                    Toast.makeText(this@MainActivity, "Enter a name first!", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    //Reward them for submitting their names
+                    Toast.makeText(this@MainActivity, "Good job!", Toast.LENGTH_SHORT).show()
+
+                    //Remove any leading spaces or tabs
+                    mFullName = mFullName!!.replace("^\\s+".toRegex(), "")
+
+                    //Separate the string into first and last name using simple Java stuff
+                    val splitStrings = mFullName!!.split("\\s+".toRegex()).toTypedArray()
+                    when (splitStrings.size) {
+                        1 -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Enter both first and last name!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        2 -> {
+                            mFirstName = splitStrings[0]
+                            mLastName = splitStrings[1]
+
+                            //Set the text views
+                            mTvFirstName!!.text = mFirstName
+                            mTvLastName!!.text = mLastName
+                        }
+                        else -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Enter only first and last name!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            }
+            R.id.button_pic -> {
+
+                //The button press should open a camera
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                try{
+                    cameraActivity.launch(cameraIntent)
+                }catch(ex:ActivityNotFoundException){
+                    //Do error handling here
+                }
+            }
         }
     }
+    private val cameraActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
+        if(result.resultCode == RESULT_OK) {
+            mIvPic = findViewById<View>(R.id.iv_pic) as ImageView
+            //val extras = result.data!!.extras
+            //val thumbnailImage = extras!!["data"] as Bitmap?
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+                val thumbnailImage = result.data!!.getParcelableExtra<Bitmap>("data")
+                mIvPic!!.setImageBitmap(thumbnailImage)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+
         }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
     }
 }
