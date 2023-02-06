@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     else //throw warning if improperly formatted
                         Toast.makeText(
                             this@MainActivity,
-                            "Please enter height in proper format: *Feet*\"*inches*'",
+                            "Please enter height in proper format: *Feet*'*inches*\"",
                             Toast.LENGTH_SHORT
                         ).show()
                 }
