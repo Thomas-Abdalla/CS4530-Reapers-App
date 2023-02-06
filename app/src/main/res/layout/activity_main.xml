@@ -229,10 +229,10 @@
     <RadioGroup
         android:layout_width="147dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_sex2"
         android:layout_centerVertical="true"
         android:layout_marginStart="200dp"
-        android:layout_marginTop="270dp"
-        android:layout_toEndOf="@+id/null">
+        android:layout_marginTop="10dp">
 
 
         <RadioButton
@@ -252,7 +252,7 @@
             android:layout_below="@+id/rb_male"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="dp"
+            android:layout_marginTop="0dp"
             android:text="@string/moderate" />
 
         <RadioButton
@@ -282,7 +282,6 @@
         android:id="@+id/tv_sex2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/null"
         android:layout_below="@+id/tv_height"
         android:layout_alignParentStart="true"
         android:layout_marginStart="183dp"
