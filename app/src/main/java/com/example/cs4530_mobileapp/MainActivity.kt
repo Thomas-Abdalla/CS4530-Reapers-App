@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mFullName: String? = null
     private var mFirstName: String? = null
     private var mLastName: String? = null
-    private var mAge: String? = null
+    private var mAge: Int? = null
     private var mHeight: String? = null
-    private var mWeight: String? = null
+    private var mWeight: Int? = null
     //Create variables for the UI elements that we need to control
     private var mTvFirstName: TextView? = null
     private var mTvLastName: TextView? = null
@@ -106,8 +106,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 //Next get the age from the age EditTexts
                 mEtAge = findViewById(R.id.et_age)
-                mAge = mEtAge!!.text.toString()
-                if (mAge.isNullOrBlank()){ //throw warning if no data
+                mAge = mEtAge!!.text.toString().toIntOrNull()
+                if (mAge == null){ //throw warning if incorrect data
                     Toast.makeText(
                         this@MainActivity,
                         "Please enter data in all fields",
@@ -123,11 +123,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         "Please enter data in all fields",
                         Toast.LENGTH_SHORT
                     ).show()
+                } else {
+                    //Remove any leading spaces or tabs
+                    mHeight = mHeight!!.replace("^\\s+".toRegex(), "")
+                    val splitStrings = mHeight!!.split("\\s+".toRegex()).toTypedArray()
+                    if(splitStrings.size == 1)
+                        mHeight = splitStrings[0]
+                    else //throw warning if improperly formatted
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Please enter height in proper format: *Feet*\"*inches*'",
+                            Toast.LENGTH_SHORT
+                        ).show()
                 }
                 //Next get the weight from the weight EditTexts
                 mEtWeight = findViewById(R.id.et_weight)
-                mWeight = mEtWeight!!.text.toString()
-                if (mWeight.isNullOrBlank()) { //throw warning if no data
+                mWeight = mEtWeight!!.text.toString().toIntOrNull()
+                if (mWeight == null) { //throw warning if bad data
                     Toast.makeText(
                         this@MainActivity,
                         "Please enter data in all fields",
@@ -147,7 +159,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-    private val cameraActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
+    private val cameraActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result ->
         if(result.resultCode == RESULT_OK) {
             mIvPic = findViewById<View>(R.id.iv_pic) as ImageView
             //val extras = result.data!!.extras
