@@ -61,10 +61,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 //Check if the EditText string is empty
                 if (mFullName.isNullOrBlank()) {
                     //Complain that there's no text
-                    Toast.makeText(this@MainActivity, "Please enter data in all fields", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Please enter data in all fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     //Reward them for submitting their names
-                    Toast.makeText(this@MainActivity, "Welcome!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Welcome!",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                     //Remove any leading spaces or tabs
                     mFullName = mFullName!!.replace("^\\s+".toRegex(), "")
@@ -95,12 +103,40 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             ).show()
                         }
                     }
-                } //Next get the age from the age EditTexts
-
+                }
+                //Next get the age from the age EditTexts
+                mEtAge = findViewById(R.id.et_age)
+                mAge = mEtAge!!.text.toString()
+                if (mAge.isNullOrBlank()){ //throw warning if no data
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Please enter data in all fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                //Next get the height from the height EditTexts
+                mEtHeight = findViewById(R.id.et_height)
+                mHeight = mEtHeight!!.text.toString()
+                if (mHeight.isNullOrBlank()) { //throw warning if no data
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Please enter data in all fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                //Next get the weight from the weight EditTexts
+                mEtWeight = findViewById(R.id.et_weight)
+                mWeight = mEtWeight!!.text.toString()
+                if (mWeight.isNullOrBlank()) { //throw warning if no data
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Please enter data in all fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
 
             R.id.button_pic -> {
-
                 //The button press should open a camera
                 val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 try{
