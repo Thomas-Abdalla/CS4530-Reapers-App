@@ -17,16 +17,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mFullName: String? = null
     private var mFirstName: String? = null
     private var mLastName: String? = null
-
+    private var mAge: String? = null
+    private var mHeight: String? = null
+    private var mWeight: String? = null
     //Create variables for the UI elements that we need to control
     private var mTvFirstName: TextView? = null
     private var mTvLastName: TextView? = null
     private var mButtonSubmit: Button? = null
     private var mButtonCamera: Button? = null
     private var mEtFullName: EditText? = null
-
+    private var mEtAge: EditText? = null
+    private var mEtHeight: EditText? = null
+    private var mEtWeight: EditText? = null
     //Create the variable for the ImageView that holds the profile pic
     private var mIvPic: ImageView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,18 +54,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (view.id) {
             R.id.button_submit -> {
 
-                //First, get the string from the EditText
+                //First, get the names from the name EditText
                 mEtFullName = findViewById(R.id.et_name)
                 mFullName = mEtFullName!!.text.toString()
 
                 //Check if the EditText string is empty
                 if (mFullName.isNullOrBlank()) {
                     //Complain that there's no text
-                    Toast.makeText(this@MainActivity, "Enter a name first!", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this@MainActivity, "Please enter data in all fields", Toast.LENGTH_SHORT).show()
                 } else {
                     //Reward them for submitting their names
-                    Toast.makeText(this@MainActivity, "Good job!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Welcome!", Toast.LENGTH_SHORT).show()
 
                     //Remove any leading spaces or tabs
                     mFullName = mFullName!!.replace("^\\s+".toRegex(), "")
@@ -71,7 +75,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         1 -> {
                             Toast.makeText(
                                 this@MainActivity,
-                                "Enter both first and last name!",
+                                "Enter both first and last name, separated by a space",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -91,8 +95,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             ).show()
                         }
                     }
-                }
+                } //Next get the age from the age EditTexts
+
             }
+
             R.id.button_pic -> {
 
                 //The button press should open a camera
