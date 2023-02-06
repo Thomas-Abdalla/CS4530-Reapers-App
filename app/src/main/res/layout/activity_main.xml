@@ -8,83 +8,286 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearlayout_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/linearlayout_data"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name"
-            android:id="@+id/tv_name"
-            />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:id="@+id/et_name"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/submit"
-            android:id="@+id/button_submit"
-            />
+        android:orientation="horizontal">
+
     </LinearLayout>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/linearlayout_data"
-        android:layout_marginTop="8dp"
-        android:text="@string/first_name"
         android:id="@+id/tv_fn_hardcoded"
-        />
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_below="@id/linearlayout_data"
-        android:layout_toRightOf="@id/tv_fn_hardcoded"
-        tools:text="Mickey"
-        android:id="@+id/tv_fn_data"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/tv_fn_hardcoded"
-        android:layout_marginTop="8dp"
-        android:text="@string/last_name"
-        android:id="@+id/tv_ln_hardcoded"
-        />
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="8dp"
+        android:text="@string/first_name" />
+
     <TextView
+        android:id="@+id/tv_ln_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_below="@id/tv_fn_hardcoded"
+        android:layout_below="@+id/tv_fn_data"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/tv_ln_hardcoded"
         android:layout_toRightOf="@id/tv_ln_hardcoded"
-        tools:text="Mouse"
-        android:id="@+id/tv_ln_data"
-        />
+        tools:text="Mouse" />
 
     <Button
         android:id="@+id/button_pic"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tv_ln_hardcoded"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="299dp"
+        android:layout_marginTop="15dp"
         android:text="@string/take_a_picture" />
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="104dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="149dp"
+        android:layout_marginBottom="239dp"
+        android:text="@string/submit" />
 
     <ImageView
         android:id="@+id/iv_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/button_pic"
-        android:layout_below="@+id/tv_ln_hardcoded"
-        />
+        android:layout_toRightOf="@id/button_pic" />
+
+    <TextView
+        android:id="@+id/tv_fn_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="-7dp"
+        android:layout_toEndOf="@+id/tv_fn_hardcoded"
+        android:baselineAligned="false"
+        tools:text="Mickey" />
+
+    <TextView
+        android:id="@+id/tv_ln_hardcoded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_fn_hardcoded"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/last_name" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="2" />
+
+    <EditText
+        android:id="@+id/et_age"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="2" />
+
+    <EditText
+        android:id="@+id/et_address"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_age"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="2" />
+
+    <EditText
+        android:id="@+id/et_weight"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_address"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toEndOf="@+id/et_height"
+        android:layout_weight="2" />
+
+    <EditText
+        android:id="@+id/et_height"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_address"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_weight="2" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="53dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@+id/et_name"
+        android:text="@string/name" />
+
+    <TextView
+        android:id="@+id/tv_age"
+        android:layout_width="56dp"
+        android:layout_height="37dp"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@+id/et_age"
+        android:text="@string/age" />
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="49dp"
+        android:layout_height="33dp"
+        android:layout_alignBottom="@+id/tv_age"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="-65dp"
+        android:layout_toStartOf="@+id/et_address"
+        android:text="@string/address" />
+
+    <TextView
+        android:id="@+id/tv_height"
+        android:layout_width="85dp"
+        android:layout_height="31dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-9dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="-36dp"
+        android:layout_toStartOf="@+id/et_height"
+        android:text="@string/height" />
+
+    <TextView
+        android:id="@+id/tv_height2"
+        android:layout_width="85dp"
+        android:layout_height="31dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="-80dp"
+        android:layout_toStartOf="@+id/et_weight"
+        android:text="@string/weight" />
+
+    <RadioGroup
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="240dp">
+
+
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/male" />
+
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rb_male"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/female" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="270dp"
+        android:layout_toEndOf="@+id/null">
+
+
+        <RadioButton
+            android:id="@+id/rb_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/light" />
+
+        <RadioButton
+            android:id="@+id/rb_moderate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rb_male"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="dp"
+            android:text="@string/moderate" />
+
+        <RadioButton
+            android:id="@+id/rb_heavy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rb_male"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/heavy" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_height"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="0dp"
+        android:text="@string/sex" />
+
+    <TextView
+        android:id="@+id/tv_sex2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/null"
+        android:layout_below="@+id/tv_height"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="183dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="3dp"
+        android:text="@string/amount_of_exercise" />
 
 </RelativeLayout>
