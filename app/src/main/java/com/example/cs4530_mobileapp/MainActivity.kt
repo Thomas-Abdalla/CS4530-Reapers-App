@@ -7,6 +7,7 @@ import android.content.Intent
 import android.provider.MediaStore
 import android.graphics.Bitmap
 import android.os.Build
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,7 +23,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mHeight: String? = null
     private var mWeight: Int? = null
     private var mBMI: Float? = null
-    private var mHeightInInches: Int? = null
     //Create variables for the UI elements that we need to control
     private var mTvFirstName: TextView? = null
     private var mTvLastName: TextView? = null
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     val splitStrings = mHeight!!.split("\\s+".toRegex()).toTypedArray()
                     if(splitStrings.size == 1) {
                         mHeight = splitStrings[0]
-                        var splitByPieces = mHeight!!.split("'".toRegex()).toTypedArray()
+                        val splitByPieces = mHeight!!.split("'".toRegex()).toTypedArray()
                         splitByPieces[1] = splitByPieces[1].replace("\"","")
                         splitByValues[0] = splitByPieces[0]
                         splitByValues[1] = splitByPieces[1]
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2)).toFloat()
+                mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2))
 
             }
 
@@ -183,5 +183,41 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        if(mFullName != null)
+         outState.putString("FullName",mFullName)
+        if(mFirstName!=null)
+         outState.putString("FirstName",mFirstName)
+        if(mLastName!=null)
+        outState.putString("LastName",mLastName)
+        if(mAge != null)
+        outState.putInt("Age", mAge!!)
+        if(mHeight != null)
+        outState.putString("Height",mHeight)
+        if(mWeight != null)
+        outState.putInt("Weight",mWeight!!)
+        if(mBMI != null)
+        outState.putFloat("BMI",mBMI!!)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if(savedInstanceState.get("FullName") != null)
+            mFullName = savedInstanceState.get("FullName").toString()
+        if(savedInstanceState.get("FirstName") != null)
+            mFirstName = savedInstanceState.get("FirstName").toString()
+        if(savedInstanceState.get("LastName") != null)
+            mLastName = savedInstanceState.get("LastName").toString()
+        if(savedInstanceState.get("Height") != null)
+            mHeight = savedInstanceState.get("Height").toString()
+        if(savedInstanceState.get("Age") != null)
+            mAge = savedInstanceState.get("Age").toString().toInt()
+        if(savedInstanceState.get("Weight") != null)
+            mWeight = savedInstanceState.get("Weight").toString().toInt()
+        if(savedInstanceState.get("BMI") != null)
+            mBMI = savedInstanceState.get("BMI").toString().toFloat()
     }
 }
