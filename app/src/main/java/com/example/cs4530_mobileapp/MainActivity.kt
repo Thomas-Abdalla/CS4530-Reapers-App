@@ -11,6 +11,7 @@ import android.os.PersistableBundle
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import java.io.OutputStream
 import kotlin.math.pow
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
@@ -219,5 +220,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             mWeight = savedInstanceState.get("Weight").toString().toInt()
         if(savedInstanceState.get("BMI") != null)
             mBMI = savedInstanceState.get("BMI").toString().toFloat()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val filename:String?
+        var fileContents:String?
+        if(mFullName != null) {
+            filename = mFullName!!
+            fileContents = ""
+            fileContents += mFullName!!.toString() + "\n"
+            fileContents += mFirstName!!.toString() + "\n"
+            fileContents += mLastName!!.toString() + "\n"
+            fileContents += mAge!!.toString() + "\n"
+            fileContents += mHeight!!.toString() + "\n"
+            fileContents += mWeight!!.toString() + "\n"
+            fileContents += mBMI!!.toString() + "\n"
+            try {
+                val output = openFileOutput(filename, MODE_PRIVATE)
+                output.write(fileContents.toByteArray())
+                output.close()
+            } catch (e : Exception)
+            {
+                e.printStackTrace()
+            }
+        }
+
     }
 }
