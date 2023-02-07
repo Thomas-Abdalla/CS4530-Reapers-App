@@ -10,6 +10,7 @@ import android.os.Build
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import kotlin.math.pow
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mAge: Int? = null
     private var mHeight: String? = null
     private var mWeight: Int? = null
+    private var mBMI: Float? = null
+    private var mHeightInInches: Int? = null
     //Create variables for the UI elements that we need to control
     private var mTvFirstName: TextView? = null
     private var mTvLastName: TextView? = null
@@ -117,6 +120,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 //Next get the height from the height EditTexts
                 mEtHeight = findViewById(R.id.et_height)
                 mHeight = mEtHeight!!.text.toString()
+                val splitByValues = Array(2){i->i.toString()}
                 if (mHeight.isNullOrBlank()) { //throw warning if no data
                     Toast.makeText(
                         this@MainActivity,
@@ -127,8 +131,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     //Remove any leading spaces or tabs
                     mHeight = mHeight!!.replace("^\\s+".toRegex(), "")
                     val splitStrings = mHeight!!.split("\\s+".toRegex()).toTypedArray()
-                    if(splitStrings.size == 1)
+                    if(splitStrings.size == 1) {
                         mHeight = splitStrings[0]
+                        var splitByPieces = mHeight!!.split("'".toRegex()).toTypedArray()
+                        splitByPieces[1] = splitByPieces[1].replace("\"","")
+                        splitByValues[0] = splitByPieces[0]
+                        splitByValues[1] = splitByPieces[1]
+                    }
                     else //throw warning if improperly formatted
                         Toast.makeText(
                             this@MainActivity,
@@ -146,6 +155,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2)).toFloat()
+
             }
 
             R.id.button_pic -> {
@@ -157,6 +168,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     //Do error handling here
                 }
             }
+            //R.id.
         }
     }
     private val cameraActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){

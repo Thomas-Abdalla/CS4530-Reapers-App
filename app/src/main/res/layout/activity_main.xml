@@ -62,7 +62,8 @@
         android:id="@+id/iv_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/button_pic" />
+        android:layout_toLeftOf="@id/button_pic"
+        android:layout_toRightOf="@id/tv_fn_data"/>
 
     <TextView
         android:id="@+id/tv_fn_data"
@@ -249,7 +250,7 @@
             android:id="@+id/rb_moderate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rb_male"
+            android:layout_below="@+id/rb_light"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="0dp"
@@ -259,7 +260,7 @@
             android:id="@+id/rb_heavy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rb_male"
+            android:layout_below="@+id/rb_moderate"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="0dp"
