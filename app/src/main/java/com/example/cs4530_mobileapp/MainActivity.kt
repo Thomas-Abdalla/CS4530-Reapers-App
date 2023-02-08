@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mAge: Int? = null
     private var mHeight: String? = null
     private var mWeight: Int? = null
-    private var mBMI: Float? = null
+    private var mBMI: Float? = 0.0f
+    private var mDailyCalories: Int? = 0
     //Create variables for the UI elements that we need to control
     private var mTvFirstName: TextView? = null
     private var mTvLastName: TextView? = null
@@ -161,11 +162,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2))
+                mDailyCalories = mBMI!!.toInt()
             }
-            
+
             R.id.button_home ->{
                 //send intent for home page
                 val homeActivityIntent = Intent(this, HomePageActivity::class.java)
+                val intentBundle = Bundle()
+                intentBundle.putFloat("BMI", mBMI!!)
+                intentBundle.putInt("Calories", mDailyCalories!!)
                 startActivity(homeActivityIntent)
             }
 

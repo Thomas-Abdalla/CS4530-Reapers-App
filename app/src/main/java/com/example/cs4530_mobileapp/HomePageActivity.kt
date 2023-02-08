@@ -6,15 +6,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.io.File
 
 class HomePageActivity : AppCompatActivity(), View.OnClickListener {
     //initialize members
-    private var mFirstName: String? = null
-    private var mLastName: String? = null
-    private var mAge: Int? = null
-    private var mHeight: Int? = null
-    private var mWeight: Int? = null
-    private var mSex: Boolean? = null
+    private var mBMI: Float? = null
+    private var mDailyCalories: Int? = null
     private var mActivityLvl: Int? = null
 
     //initialize UI variables
@@ -34,8 +31,12 @@ class HomePageActivity : AppCompatActivity(), View.OnClickListener {
 
         //link button to onClick
         mButtonProfile!!.setOnClickListener(this)
-    }
 
+        //receive intent bundle
+        val receivedIntent = intent
+        mBMI = receivedIntent.getFloatExtra("BMI", 0.0f)
+        mDailyCalories = receivedIntent.getIntExtra("Calories",0)
+    }
 
     override fun onClick(view: View) {
         when(view.id){
@@ -47,3 +48,4 @@ class HomePageActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 }
+
