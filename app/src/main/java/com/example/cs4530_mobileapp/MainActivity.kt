@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mTvLastName: TextView? = null
     private var mButtonSubmit: Button? = null
     private var mButtonCamera: Button? = null
+    private var mButtonHome: Button? = null
     private var mEtFullName: EditText? = null
     private var mEtAge: EditText? = null
     private var mEtHeight: EditText? = null
@@ -47,10 +48,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         //Get the buttons
         mButtonSubmit = findViewById(R.id.button_submit)
         mButtonCamera = findViewById(R.id.button_pic)
+        mButtonHome = findViewById(R.id.button_home)
 
         //Say that this class itself contains the listener.
         mButtonSubmit!!.setOnClickListener(this)
         mButtonCamera!!.setOnClickListener(this)
+        mButtonHome!!.setOnClickListener(this)
     }
 
     //Handle clicks for ALL buttons here
@@ -156,8 +159,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2))
 
+                mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2))
+            }
+            
+            R.id.button_home ->{
+                //send intent for home page
+                val homeActivityIntent = Intent(this, HomePageActivity::class.java)
+                startActivity(homeActivityIntent)
             }
 
             R.id.button_pic -> {
