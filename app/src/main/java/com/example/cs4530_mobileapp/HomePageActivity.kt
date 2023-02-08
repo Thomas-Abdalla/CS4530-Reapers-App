@@ -36,6 +36,9 @@ class HomePageActivity : AppCompatActivity(), View.OnClickListener {
         val receivedIntent = intent
         mBMI = receivedIntent.getFloatExtra("BMI", 0.0f)
         mDailyCalories = receivedIntent.getIntExtra("Calories",0)
+
+        mTVBMI!!.text = mBMI.toString()
+        mTVCalorie!!.text = mDailyCalories.toString()
     }
 
     override fun onClick(view: View) {
