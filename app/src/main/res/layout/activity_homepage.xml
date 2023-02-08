@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_bmi_value" />
 
     <TextView
-        android:id="@+id/tv_calories_value"
+        android:id="@+id/tv_calorie_value"
         android:layout_width="300dp"
         android:layout_height="25dp"
         android:layout_marginStart="15dp"
