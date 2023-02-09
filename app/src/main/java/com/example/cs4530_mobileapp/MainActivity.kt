@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mWeight: Int? = null
     private var mBMI: Float? = 0.0f
     private var mDailyCalories: Int? = 0
-    private var mSex: Int? = null
-    private var mActivityLvl: Int? = null
+    private var mSex: Int? = null          // 0 = male; 1 = female;
+    private var mActivityLvl: Int? = null // 0 = sedentary; 1 = moderate; 2 = very active;
     //Create variables for the UI elements that we need to control
     private var mTvFirstName: TextView? = null
     private var mTvLastName: TextView? = null
