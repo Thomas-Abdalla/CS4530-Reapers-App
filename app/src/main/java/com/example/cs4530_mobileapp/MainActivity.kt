@@ -205,7 +205,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     ).show()
 
                 mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2))
-                mDailyCalories = mBMI!!.toInt()
+
+                //Harris Benedict Equation
+                when(mActivityLvl){
+                    0 -> { mDailyCalories = (mBMI!! * 1.2f).toInt() }
+                    1 -> { mDailyCalories = (mBMI!! * 1.55f).toInt() }
+                    2 -> { mDailyCalories = (mBMI!! * 1.725f).toInt() }
+                }
             }
 
             R.id.button_home ->{
