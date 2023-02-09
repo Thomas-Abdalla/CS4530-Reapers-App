@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mWeight: Int? = null
     private var mBMI: Float? = 0.0f
     private var mDailyCalories: Int? = 0
+    private var mSex: Int? = null
+    private var mActivityLvl: Int? = null
     //Create variables for the UI elements that we need to control
     private var mTvFirstName: TextView? = null
     private var mTvLastName: TextView? = null
@@ -35,6 +37,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mEtAge: EditText? = null
     private var mEtHeight: EditText? = null
     private var mEtWeight: EditText? = null
+    private var mRBMale: RadioButton? = null
+    private var mRBFemale: RadioButton? = null
+    private var mRBActLow: RadioButton? = null
+    private var mRBActMed: RadioButton? = null
+    private var mRBActHigh: RadioButton? = null
     //Create the variable for the ImageView that holds the profile pic
     private var mIvPic: ImageView? = null
 
@@ -50,6 +57,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mButtonSubmit = findViewById(R.id.button_submit)
         mButtonCamera = findViewById(R.id.button_pic)
         mButtonHome = findViewById(R.id.button_home)
+
+        //Get the Radio Buttons
+        mRBMale = findViewById(R.id.rb_male)
+        mRBFemale = findViewById(R.id.rb_female)
+        mRBActLow = findViewById(R.id.rb_light)
+        mRBActMed = findViewById(R.id.rb_moderate)
+        mRBActHigh = findViewById(R.id.rb_heavy)
 
         //Say that this class itself contains the listener.
         mButtonSubmit!!.setOnClickListener(this)
@@ -112,7 +126,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         }
                     }
                 }
-                //Next get the age from the age EditTexts
+
+                //Next get the age from the age EditText
                 mEtAge = findViewById(R.id.et_age)
                 mAge = mEtAge!!.text.toString().toIntOrNull()
                 if (mAge == null){ //throw warning if incorrect data
@@ -122,6 +137,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 //Next get the height from the height EditTexts
                 mEtHeight = findViewById(R.id.et_height)
                 mHeight = mEtHeight!!.text.toString()
@@ -150,6 +166,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             Toast.LENGTH_SHORT
                         ).show()
                 }
+
                 //Next get the weight from the weight EditTexts
                 mEtWeight = findViewById(R.id.et_weight)
                 mWeight = mEtWeight!!.text.toString().toIntOrNull()
@@ -160,6 +177,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
+                //Next check Sex Radio Group inputs
+                if (mRBMale!!.isActivated)
+                    mSex = 0
+                else if (mRBFemale!!.isActivated)
+                    mSex = 1
+                else
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Please Select a sex for BMI and Calorie calculation",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                //Next check Activity Level Radio Group inputs
+                if (mRBActLow!!.isActivated)
+                    mActivityLvl = 0
+                else if (mRBActMed!!.isActivated)
+                    mActivityLvl = 1
+                else if (mRBActHigh!!.isActivated)
+                    mActivityLvl = 2
+                else
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Please select an activity level for BMI and calorie calculation",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2))
                 mDailyCalories = mBMI!!.toInt()
