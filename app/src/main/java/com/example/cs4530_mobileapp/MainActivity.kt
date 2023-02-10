@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     mSex = 0
                 else if (mRBFemale!!.isActivated)
                     mSex = 1
-                else
+                else if (!(mRBMale!!.isActivated || mRBFemale!!.isActivated))
                     Toast.makeText(
                         this@MainActivity,
                         "Please Select a sex for BMI and Calorie calculation",
@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     mActivityLvl = 1
                 else if (mRBActHigh!!.isActivated)
                     mActivityLvl = 2
-                else
+                else (!(mRBActLow!!.isActivated || mRBActMed!!.isActivated || mRBActHigh!!.isActivated))
                     Toast.makeText(
                         this@MainActivity,
                         "Please select an activity level for BMI and calorie calculation",
