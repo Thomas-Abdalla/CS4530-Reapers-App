@@ -7,14 +7,6 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearlayout_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
     <TextView
         android:id="@+id/tv_fn_hardcoded"
         android:layout_width="wrap_content"
@@ -26,6 +18,27 @@
         android:text="@string/first_name" />
 
     <TextView
+        android:id="@+id/tv_ln_hardcoded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_fn_hardcoded"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/last_name" />
+
+    <TextView
+        android:id="@+id/tv_fn_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="-7dp"
+        android:layout_toEndOf="@+id/tv_fn_hardcoded"
+        android:baselineAligned="false"/>
+
+    <TextView
         android:id="@+id/tv_ln_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,8 +47,7 @@
         android:layout_marginLeft="18dp"
         android:layout_marginTop="15dp"
         android:layout_toEndOf="@+id/tv_ln_hardcoded"
-        android:layout_toRightOf="@id/tv_ln_hardcoded"
-        tools:text="Mouse" />
+        android:layout_toRightOf="@id/tv_ln_hardcoded"/>
 
     <Button
         android:id="@+id/button_pic"
@@ -47,29 +59,6 @@
         android:layout_marginTop="15dp"
         android:text="@string/take_a_picture" />
 
-    <Button
-        android:id="@+id/button_submit"
-        android:layout_width="104dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="149dp"
-        android:layout_marginBottom="239dp"
-        android:text="@string/submit" />
-
-    <Button
-        android:id = "@+id/button_home"
-        android:layout_width="104dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="175dp"
-        android:text="Home" />
-
-
     <ImageView
         android:id="@+id/iv_pic"
         android:layout_width="wrap_content"
@@ -77,229 +66,161 @@
         android:layout_toLeftOf="@id/button_pic"
         android:layout_toRightOf="@id/tv_fn_data"/>
 
-    <TextView
-        android:id="@+id/tv_fn_data"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="-7dp"
-        android:layout_toEndOf="@+id/tv_fn_hardcoded"
-        android:baselineAligned="false"
-        tools:text="Mickey" />
+        android:orientation="vertical"
+        android:padding="5dp"
+        tools:context=".MainActivity"
+        android:layout_below="@+id/button_pic"
+        android:layout_centerHorizontal="true">
 
-    <TextView
-        android:id="@+id/tv_ln_hardcoded"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_fn_hardcoded"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/last_name" />
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:hint="i.e. Mickey Mouse"
+            android:layout_weight="2"/>
 
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="2" />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:text="Name (first and last)"
+            android:layout_weight="1"/>
 
-    <EditText
-        android:id="@+id/et_age"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="2" />
+        <NumberPicker
+            android:id="@+id/np_age"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="2" />
 
-    <EditText
-        android:id="@+id/et_address"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_age"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="2" />
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:text="Age (in years)" />
 
-    <EditText
-        android:id="@+id/et_weight"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_address"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="8dp"
-        android:layout_toEndOf="@+id/et_height"
-        android:layout_weight="2" />
+        <NumberPicker
+            android:id="@+id/et_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="2" />
 
-    <EditText
-        android:id="@+id/et_height"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_address"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="7dp"
-        android:layout_weight="2" />
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weight (in pounds)"
+            android:layout_weight="1"/>
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="53dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginEnd="0dp"
-        android:layout_toStartOf="@+id/et_name"
-        android:text="@string/name" />
+        <NumberPicker
+            android:id="@+id/et_height"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="2" />
 
-    <TextView
-        android:id="@+id/tv_age"
-        android:layout_width="56dp"
-        android:layout_height="37dp"
-        android:layout_below="@+id/tv_name"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="0dp"
-        android:layout_toStartOf="@+id/et_age"
-        android:text="@string/age" />
+        <TextView
+            android:id="@+id/tv_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Height (in inches)"
+            android:layout_weight="1"/>
 
-    <TextView
-        android:id="@+id/tv_address"
-        android:layout_width="49dp"
-        android:layout_height="33dp"
-        android:layout_alignBottom="@+id/tv_age"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="-65dp"
-        android:layout_toStartOf="@+id/et_address"
-        android:text="@string/address" />
-
-    <TextView
-        android:id="@+id/tv_height"
-        android:layout_width="85dp"
-        android:layout_height="31dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-9dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="-36dp"
-        android:layout_toStartOf="@+id/et_height"
-        android:text="@string/height" />
-
-    <TextView
-        android:id="@+id/tv_height2"
-        android:layout_width="85dp"
-        android:layout_height="31dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="-80dp"
-        android:layout_toStartOf="@+id/et_weight"
-        android:text="@string/weight" />
-
-    <RadioGroup
-        android:layout_width="147dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="240dp">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:layout_weight="3">
 
 
         <RadioButton
             android:id="@+id/rb_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
             android:text="@string/male" />
 
         <RadioButton
             android:id="@+id/rb_female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rb_male"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginStart="10dp"
             android:text="@string/female" />
+        </RadioGroup>
 
-    </RadioGroup>
-
-    <RadioGroup
-        android:layout_width="147dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_sex2"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="10dp">
-
-
-        <RadioButton
-            android:id="@+id/rb_light"
+        <TextView
+            android:id="@+id/tv_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="0dp"
-            android:text="@string/light" />
+            android:text="@string/sex"
+            android:layout_weight="1"/>
 
-        <RadioButton
-            android:id="@+id/rb_moderate"
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rb_light"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="0dp"
-            android:text="@string/moderate" />
+            android:orientation="horizontal"
+            android:layout_weight="3"
+            android:layout_marginTop="15dp">
 
-        <RadioButton
-            android:id="@+id/rb_heavy"
+
+            <RadioButton
+                android:id="@+id/rb_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/light" />
+
+            <RadioButton
+                android:id="@+id/rb_moderate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/moderate" />
+
+            <RadioButton
+                android:id="@+id/rb_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/heavy" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_xercise_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rb_moderate"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="0dp"
-            android:text="@string/heavy" />
+            android:text="@string/amount_of_exercise"
+            android:layout_weight="1"/>
 
-    </RadioGroup>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_sex"
+    <Button
+        android:id="@+id/button_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_height"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginBottom="0dp"
-        android:text="@string/sex" />
+        android:layout_below="@+id/ll_info"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/submit" />
 
-    <TextView
-        android:id="@+id/tv_sex2"
+    <Button
+        android:id = "@+id/button_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_height"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="183dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="3dp"
-        android:text="@string/amount_of_exercise" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/button_submit"
+        android:layout_marginTop="15dp"
+        android:text="Home" />
 
 </RelativeLayout>

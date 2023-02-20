@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.content.Intent
 import android.provider.MediaStore
 import android.graphics.Bitmap
-import android.os.Build
 import android.os.PersistableBundle
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
-import java.io.OutputStream
 import kotlin.math.pow
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
@@ -128,7 +126,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 //Next get the age from the age EditText
-                mEtAge = findViewById(R.id.et_age)
+                mEtAge = findViewById(R.id.np_age)
                 mAge = mEtAge!!.text.toString().toIntOrNull()
                 if (mAge == null){ //throw warning if incorrect data
                     Toast.makeText(
