@@ -10,6 +10,7 @@ import android.os.PersistableBundle
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.cs4530_mobileapp.databinding.ActivityMainBinding
 import kotlin.math.pow
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
@@ -67,6 +68,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mButtonSubmit!!.setOnClickListener(this)
         mButtonCamera!!.setOnClickListener(this)
         mButtonHome!!.setOnClickListener(this)
+
+        //settings for NumberPickers
+        mNpAge!!.maxValue = 99
+        mNpAge!!.minValue = 0
+        mNpAge!!.wrapSelectorWheel = false
+        mNpHeight!!.maxValue = 96
+        mNpHeight!!.minValue = 0
+        mNpHeight!!.wrapSelectorWheel = false
+        mNpWeight!!.maxValue = 999
+        mNpWeight!!.minValue = 0
+        mNpWeight!!.wrapSelectorWheel = false
     }
 
     //Handle clicks for ALL buttons here
