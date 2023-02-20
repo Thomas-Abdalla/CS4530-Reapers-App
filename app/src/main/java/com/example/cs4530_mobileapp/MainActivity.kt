@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mFirstName: String? = null
     private var mLastName: String? = null
     private var mAge: Int? = null
-    private var mHeight: String? = null
+    private var mHeight: Int? = null
     private var mWeight: Int? = null
     private var mBMI: Float? = 0.0f
     private var mDailyCalories: Int? = 0
@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mButtonCamera: Button? = null
     private var mButtonHome: Button? = null
     private var mEtFullName: EditText? = null
-    private var mEtAge: EditText? = null
-    private var mEtHeight: EditText? = null
-    private var mEtWeight: EditText? = null
+    private var mNpAge: NumberPicker? = null
+    private var mNpHeight: NumberPicker? = null
+    private var mNpWeight: NumberPicker? = null
     private var mRBMale: RadioButton? = null
     private var mRBFemale: RadioButton? = null
     private var mRBActLow: RadioButton? = null
@@ -125,10 +125,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
 
-                //Next get the age from the age EditText
-                mEtAge = findViewById(R.id.np_age)
-                mAge = mEtAge!!.text.toString().toIntOrNull()
-                if (mAge == null){ //throw warning if incorrect data
+                //Next get the age from the age NumberPicker
+                mNpAge = findViewById(R.id.np_age)
+                mAge = mNpAge!!.value
+                if (mAge == 0 || mAge == null){ //throw warning if incorrect data
                     Toast.makeText(
                         this@MainActivity,
                         "Please enter data in all fields",
@@ -136,39 +136,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     ).show()
                 }
 
-                //Next get the height from the height EditTexts
-                mEtHeight = findViewById(R.id.et_height)
-                mHeight = mEtHeight!!.text.toString()
+                //Next get the height from the height NumberPicker
+                mNpHeight = findViewById(R.id.et_height)
+                mHeight = mNpHeight!!.value
                 val splitByValues = Array(2){i->i.toString()}
-                if (mHeight.isNullOrBlank()) { //throw warning if no data
+                if (mHeight == 0 || mHeight == null) { //throw warning if no data
                     Toast.makeText(
                         this@MainActivity,
                         "Please enter data in all fields",
                         Toast.LENGTH_SHORT
                     ).show()
-                } else {
-                    //Remove any leading spaces or tabs
-                    mHeight = mHeight!!.replace("^\\s+".toRegex(), "")
-                    val splitStrings = mHeight!!.split("\\s+".toRegex()).toTypedArray()
-                    if(splitStrings.size == 1) {
-                        mHeight = splitStrings[0]
-                        val splitByPieces = mHeight!!.split("'".toRegex()).toTypedArray()
-                        splitByPieces[1] = splitByPieces[1].replace("\"","")
-                        splitByValues[0] = splitByPieces[0]
-                        splitByValues[1] = splitByPieces[1]
-                    }
-                    else //throw warning if improperly formatted
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Please enter height in proper format: *Feet*'*inches*\"",
-                            Toast.LENGTH_SHORT
-                        ).show()
                 }
 
                 //Next get the weight from the weight EditTexts
-                mEtWeight = findViewById(R.id.et_weight)
-                mWeight = mEtWeight!!.text.toString().toIntOrNull()
-                if (mWeight == null) { //throw warning if bad data
+                mNpWeight = findViewById(R.id.et_weight)
+                mWeight = mNpWeight!!.value
+                if (mWeight == 0 || mWeight == null) { //throw warning if bad data
                     Toast.makeText(
                         this@MainActivity,
                         "Please enter data in all fields",
@@ -258,7 +241,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if(mAge != null)
         outState.putInt("Age", mAge!!)
         if(mHeight != null)
-        outState.putString("Height",mHeight)
+        outState.putInt("Height", mHeight!!)
         if(mWeight != null)
         outState.putInt("Weight",mWeight!!)
         if(mBMI != null)
@@ -274,7 +257,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if(savedInstanceState.get("LastName") != null)
             mLastName = savedInstanceState.get("LastName").toString()
         if(savedInstanceState.get("Height") != null)
-            mHeight = savedInstanceState.get("Height").toString()
+            mHeight = savedInstanceState.get("Height").toString().toInt()
         if(savedInstanceState.get("Age") != null)
             mAge = savedInstanceState.get("Age").toString().toInt()
         if(savedInstanceState.get("Weight") != null)
