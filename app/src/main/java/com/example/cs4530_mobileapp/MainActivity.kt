@@ -10,7 +10,6 @@ import android.os.PersistableBundle
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.cs4530_mobileapp.databinding.ActivityMainBinding
 import kotlin.math.pow
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
@@ -33,9 +32,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mButtonCamera: Button? = null
     private var mButtonHome: Button? = null
     private var mEtFullName: EditText? = null
-    private var mNpAge: NumberPicker? = null
-    private var mNpHeight: NumberPicker? = null
-    private var mNpWeight: NumberPicker? = null
+    private var mEtAge: EditText? = null
+    private var mEtHeight: EditText? = null
+    private var mEtWeight: EditText? = null
     private var mRBMale: RadioButton? = null
     private var mRBFemale: RadioButton? = null
     private var mRBActLow: RadioButton? = null
@@ -69,16 +68,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mButtonCamera!!.setOnClickListener(this)
         mButtonHome!!.setOnClickListener(this)
 
-        //settings for NumberPickers
-        mNpAge!!.maxValue = 99
-        mNpAge!!.minValue = 0
-        mNpAge!!.wrapSelectorWheel = false
-        mNpHeight!!.maxValue = 96
-        mNpHeight!!.minValue = 0
-        mNpHeight!!.wrapSelectorWheel = false
-        mNpWeight!!.maxValue = 999
-        mNpWeight!!.minValue = 0
-        mNpWeight!!.wrapSelectorWheel = false
     }
 
     //Handle clicks for ALL buttons here
@@ -138,8 +127,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 //Next get the age from the age NumberPicker
-                mNpAge = findViewById(R.id.np_age)
-                mAge = mNpAge!!.value
+                mEtAge = findViewById(R.id.et_age)
+                if (!mEtAge?.text.isNullOrBlank()) {
+                    mAge = Integer.parseInt(mEtAge?.text.toString())
+                }
                 if (mAge == 0 || mAge == null){ //throw warning if incorrect data
                     Toast.makeText(
                         this@MainActivity,
@@ -149,8 +140,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 //Next get the height from the height NumberPicker
-                mNpHeight = findViewById(R.id.et_height)
-                mHeight = mNpHeight!!.value
+                mEtHeight = findViewById(R.id.et_height)
+                if (!mEtHeight?.text.isNullOrBlank()) {
+                    mHeight = Integer.parseInt(mEtHeight?.text.toString())
+                }
                 val splitByValues = Array(2){i->i.toString()}
                 if (mHeight == 0 || mHeight == null) { //throw warning if no data
                     Toast.makeText(
@@ -161,8 +154,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 //Next get the weight from the weight EditTexts
-                mNpWeight = findViewById(R.id.et_weight)
-                mWeight = mNpWeight!!.value
+                mEtWeight = findViewById(R.id.et_weight)
+                if (!mEtWeight?.text.isNullOrBlank()) {
+                    mWeight = Integer.parseInt(mEtWeight?.text.toString())
+                }
                 if (mWeight == 0 || mWeight == null) { //throw warning if bad data
                     Toast.makeText(
                         this@MainActivity,
@@ -176,7 +171,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     mSex = 0
                 else if (mRBFemale!!.isActivated)
                     mSex = 1
-                else if (!(mRBMale!!.isActivated || mRBFemale!!.isActivated))
+                else if (!mRBMale!!.isActivated || !mRBFemale!!.isActivated)
                     Toast.makeText(
                         this@MainActivity,
                         "Please Select a sex for BMI and Calorie calculation",
@@ -196,7 +191,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         "Please select an activity level for BMI and calorie calculation",
                         Toast.LENGTH_SHORT
                     ).show()
-
+                if(mWeight != null && splitByValues[0].isNotBlank() && splitByValues[0].isNotBlank())
                 mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2))
 
                 //Harris Benedict Equation
@@ -245,37 +240,37 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
         if(mFullName != null)
-         outState.putString("FullName",mFullName)
+            outState.putString("FullName",mFullName)
         if(mFirstName!=null)
-         outState.putString("FirstName",mFirstName)
+            outState.putString("FirstName",mFirstName)
         if(mLastName!=null)
-        outState.putString("LastName",mLastName)
+            outState.putString("LastName",mLastName)
         if(mAge != null)
-        outState.putInt("Age", mAge!!)
+            outState.putInt("Age", mAge!!)
         if(mHeight != null)
-        outState.putInt("Height", mHeight!!)
+            outState.putInt("Height", mHeight!!)
         if(mWeight != null)
-        outState.putInt("Weight",mWeight!!)
+            outState.putInt("Weight",mWeight!!)
         if(mBMI != null)
-        outState.putFloat("BMI",mBMI!!)
+            outState.putFloat("BMI",mBMI!!)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if(savedInstanceState.get("FullName") != null)
-            mFullName = savedInstanceState.get("FullName").toString()
-        if(savedInstanceState.get("FirstName") != null)
-            mFirstName = savedInstanceState.get("FirstName").toString()
-        if(savedInstanceState.get("LastName") != null)
-            mLastName = savedInstanceState.get("LastName").toString()
-        if(savedInstanceState.get("Height") != null)
-            mHeight = savedInstanceState.get("Height").toString().toInt()
-        if(savedInstanceState.get("Age") != null)
-            mAge = savedInstanceState.get("Age").toString().toInt()
-        if(savedInstanceState.get("Weight") != null)
-            mWeight = savedInstanceState.get("Weight").toString().toInt()
-        if(savedInstanceState.get("BMI") != null)
-            mBMI = savedInstanceState.get("BMI").toString().toFloat()
+        if(savedInstanceState.getString("FullName") != null)
+            mFullName = savedInstanceState.getString("FullName").toString()
+        if(savedInstanceState.getString("FirstName") != null)
+            mFirstName = savedInstanceState.getString("FirstName").toString()
+        if(savedInstanceState.getString("LastName") != null)
+            mLastName = savedInstanceState.getString("LastName").toString()
+        if(savedInstanceState.getString("Height") != null)
+            mHeight = savedInstanceState.getString("Height").toString().toInt()
+        if(savedInstanceState.getString("Age") != null)
+            mAge = savedInstanceState.getString("Age").toString().toInt()
+        if(savedInstanceState.getString("Weight") != null)
+            mWeight = savedInstanceState.getString("Weight").toString().toInt()
+        if(savedInstanceState.getString("BMI") != null)
+            mBMI = savedInstanceState.getString("BMI").toString().toFloat()
     }
 
     override fun onStop() {

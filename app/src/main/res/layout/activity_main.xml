@@ -66,9 +66,7 @@
         android:layout_toLeftOf="@id/button_pic"
         android:layout_toRightOf="@id/tv_fn_data"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:id="@+id/ll_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,8 +80,8 @@
             android:id="@+id/et_name"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:hint="i.e. Mickey Mouse"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:hint="i.e. Mickey Mouse" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -95,14 +93,15 @@
             android:text="Name (first and last)"
             android:layout_weight="1"/>
 
-        <NumberPicker
-            android:id="@+id/np_age"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/et_age"
+            android:layout_width="89dp"
             android:layout_height="30dp"
             android:layout_marginTop="23dp"
             android:layout_marginEnd="8dp"
-
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:inputType="number"
+            />
 
         <TextView
             android:id="@+id/tv_age"
@@ -111,13 +110,15 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:layout_weight="1"
-            android:text="Age (in years)" />
+            android:text="Age (in years)"
+            />
 
-        <NumberPicker
+        <EditText
             android:id="@+id/et_weight"
-            android:layout_width="wrap_content"
+            android:layout_width="89dp"
             android:layout_height="30dp"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/tv_weight"
@@ -126,11 +127,12 @@
             android:text="Weight (in pounds)"
             android:layout_weight="1"/>
 
-        <NumberPicker
+        <EditText
             android:id="@+id/et_height"
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="30dp"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/tv_height"
