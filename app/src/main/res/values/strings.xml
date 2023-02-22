@@ -25,4 +25,10 @@
     <string name="heavy">Heavy</string>
     <string name="moderate">Moderate</string>
     <string name="light">Light</string>
+    <string name="name_first_and_last">Name (first and last)</string>
+    <string name="i_e_mickey_mouse">i.e. Mickey Mouse</string>
+    <string name="age_in_years">Age (in years)</string>
+    <string name="weight_in_pounds">Weight (in pounds)</string>
+    <string name="height_in_inches">Height (in inches)</string>
+    <string name="home">Home</string>
 </resources>

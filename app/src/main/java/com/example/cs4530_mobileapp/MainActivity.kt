@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.content.Intent
 import android.provider.MediaStore
 import android.graphics.Bitmap
+import android.os.Build
+import android.os.Environment
 import android.os.PersistableBundle
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.math.pow
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
@@ -26,8 +30,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private var mSex: Int? = null          // 0 = male; 1 = female;
     private var mActivityLvl: Int? = null // 0 = sedentary; 1 = moderate; 2 = very active;
     //Create variables for the UI elements that we need to control
-    private var mTvFirstName: TextView? = null
-    private var mTvLastName: TextView? = null
     private var mButtonSubmit: Button? = null
     private var mButtonCamera: Button? = null
     private var mButtonHome: Button? = null
@@ -46,10 +48,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //Get the text views where we will display names
-        mTvFirstName = findViewById(R.id.tv_fn_data)
-        mTvLastName = findViewById(R.id.tv_ln_data)
 
         //Get the buttons
         mButtonSubmit = findViewById(R.id.button_submit)
@@ -112,9 +110,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                             mFirstName = splitStrings[0]
                             mLastName = splitStrings[1]
 
-                            //Set the text views
-                            mTvFirstName!!.text = mFirstName
-                            mTvLastName!!.text = mLastName
                         }
                         else -> {
                             Toast.makeText(
@@ -227,15 +222,53 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             result ->
         if(result.resultCode == RESULT_OK) {
             mIvPic = findViewById<View>(R.id.iv_pic) as ImageView
-            //val extras = result.data!!.extras
-            //val thumbnailImage = extras!!["data"] as Bitmap?
-
-                val thumbnailImage = result.data!!.getParcelableExtra<Bitmap>("data")
+            val thumbnailImage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            {
+                result.data!!.getParcelableExtra("data", Bitmap::class.java)
+            } else
+            {
+                result.data!!.getParcelableExtra<Bitmap>("data")
+            }
                 mIvPic!!.setImageBitmap(thumbnailImage)
-
+            if(isExternalStorageWritable)
+            {
+                saveImage(thumbnailImage)
+            }
+            else
+            {
+                Toast.makeText(this, "External storage not writable.", Toast.LENGTH_SHORT).show()
+            }
 
         }
     }
+
+    private fun saveImage(finalBitmap: Bitmap?) {
+        val root = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val myDir = File("$root/saved_images")
+        myDir.mkdirs()
+        val fname = "profilepic.jpg"
+        val file = File(myDir, fname)
+        if (file.exists())
+            file.delete()
+        try
+        {
+            val out = FileOutputStream(file)
+            finalBitmap!!.compress(Bitmap.CompressFormat.JPEG, 90, out)
+            out.flush()
+            out.close()
+            Toast.makeText(this, "Picture saved!", Toast.LENGTH_SHORT).show()
+        }
+        catch (e: java.lang.Exception)
+        {
+            e.printStackTrace()
+        }
+    }
+
+    private val isExternalStorageWritable: Boolean
+        get() {
+            val state = Environment.getExternalStorageState()
+            return Environment.MEDIA_MOUNTED == state
+        }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
