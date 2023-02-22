@@ -162,11 +162,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 //Next check Sex Radio Group inputs
-                if (mRBMale!!.isActivated)
+                if (mRBMale!!.isChecked)
                     mSex = 0
-                else if (mRBFemale!!.isActivated)
+                else if (mRBFemale!!.isChecked)
                     mSex = 1
-                else if (!mRBMale!!.isActivated || !mRBFemale!!.isActivated)
+                else if (!mRBMale!!.isChecked || !mRBFemale!!.isChecked)
                     Toast.makeText(
                         this@MainActivity,
                         "Please Select a sex for BMI and Calorie calculation",
@@ -174,35 +174,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     ).show()
 
                 //Next check Activity Level Radio Group inputs
-                if (mRBActLow!!.isActivated)
+                if (mRBActLow!!.isChecked)
                     mActivityLvl = 0
-                else if (mRBActMed!!.isActivated)
+                else if (mRBActMed!!.isChecked)
                     mActivityLvl = 1
-                else if (mRBActHigh!!.isActivated)
+                else if (mRBActHigh!!.isChecked)
                     mActivityLvl = 2
-                else (!(mRBActLow!!.isActivated || mRBActMed!!.isActivated || mRBActHigh!!.isActivated))
+                else
                     Toast.makeText(
                         this@MainActivity,
                         "Please select an activity level for BMI and calorie calculation",
                         Toast.LENGTH_SHORT
                     ).show()
                 if(mWeight != null && splitByValues[0].isNotBlank() && splitByValues[0].isNotBlank())
-                mBMI = (703 * mWeight!!.toFloat()/(splitByValues[0].toInt().toFloat() * 12f + splitByValues[1].toInt().toFloat()).pow(2))
+                mBMI = (703 * mWeight!!.toFloat()/(mHeight!!.toFloat().pow(2)))
 
                 //Harris Benedict Equation
                 when(mActivityLvl){
-                    0 -> { mDailyCalories = (mBMI!! * 1.2f).toInt() }
-                    1 -> { mDailyCalories = (mBMI!! * 1.55f).toInt() }
-                    2 -> { mDailyCalories = (mBMI!! * 1.725f).toInt() }
+                    0 -> { mDailyCalories = (mBMI!! * 1.2f*100).toInt() }
+                    1 -> { mDailyCalories = (mBMI!! * 1.55f*100).toInt() }
+                    2 -> { mDailyCalories = (mBMI!! * 1.725f*100).toInt() }
                 }
             }
 
             R.id.button_home ->{
                 //send intent for home page
                 val homeActivityIntent = Intent(this, HomePageActivity::class.java)
-                val intentBundle = Bundle()
-                intentBundle.putFloat("BMI", mBMI!!)
-                intentBundle.putInt("Calories", mDailyCalories!!)
+                homeActivityIntent.putExtra("BMI",mBMI!!)
+                homeActivityIntent.putExtra("Calories", mDailyCalories!!)
                 startActivity(homeActivityIntent)
             }
 

@@ -34,7 +34,7 @@ class HomePageActivity : AppCompatActivity(), View.OnClickListener {
 
         //receive intent bundle
         val receivedIntent = intent
-        mBMI = receivedIntent.getFloatExtra("BMI", 0.0f)
+        mBMI = receivedIntent.getFloatExtra("BMI",0.0f)
         mDailyCalories = receivedIntent.getIntExtra("Calories",0)
 
         mTVBMI!!.text = mBMI.toString()
