@@ -171,7 +171,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_info"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="@string/submit" />
 
     <Button
@@ -180,7 +180,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/button_submit"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:text="@string/home" />
 
 </RelativeLayout>
