@@ -6,19 +6,17 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.os.PersistableBundle
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Radio
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import java.io.File
-import java.io.FileOutputStream
+import androidx.fragment.app.Fragment
 import kotlin.math.pow
 
 class UserInfoFragment : Fragment(), View.OnClickListener {
@@ -99,7 +97,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
             R.id.button_submit -> {
 
                 //First, get the names from the name EditText
-                mEtFullName = view?.findViewById(R.id.et_name) as EditText?
+                mEtFullName = view.findViewById(R.id.et_name) as EditText?
                 mFullName = mEtFullName!!.text.toString()
 
                 //Check if the EditText string is empty
