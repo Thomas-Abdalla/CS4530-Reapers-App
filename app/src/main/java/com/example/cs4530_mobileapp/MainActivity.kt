@@ -214,7 +214,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     //Do error handling here
                 }
             }
-            //R.id.
         }
     }
     private val cameraActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -222,13 +221,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if(result.resultCode == RESULT_OK) {
             mIvPic = findViewById<View>(R.id.iv_pic) as ImageView
             val thumbnailImage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            {
-                result.data!!.getParcelableExtra("data", Bitmap::class.java)
-            } else
-            {
-                result.data!!.getParcelableExtra<Bitmap>("data")
-            }
-                mIvPic!!.setImageBitmap(thumbnailImage)
+                                {
+                                    result.data!!.getParcelableExtra("data")
+                                } else
+                                {
+                                    result.data!!.getParcelableExtra<Bitmap>("data")
+                                }
+            mIvPic!!.setImageBitmap(thumbnailImage)
+
             if(isExternalStorageWritable)
             {
                 saveImage(thumbnailImage)

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button_pic"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="299dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/take_a_picture" />
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/button_pic"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        tools:context=".MainActivity"
+        android:layout_below="@+id/button_pic"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="@string/i_e_mickey_mouse" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:text="@string/name_first_and_last"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/et_age"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="2"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:text="@string/age_in_years"
+            />
+
+        <EditText
+            android:id="@+id/et_weight"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weight_in_pounds"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/et_height"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/tv_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/height_in_inches"
+            android:layout_weight="1"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:layout_weight="3">
+
+
+            <RadioButton
+                android:id="@+id/rb_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male" />
+
+            <RadioButton
+                android:id="@+id/rb_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/female" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sex"
+            android:layout_weight="1"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="3"
+            android:layout_marginTop="15dp">
+
+
+            <RadioButton
+                android:id="@+id/rb_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/light" />
+
+            <RadioButton
+                android:id="@+id/rb_moderate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/moderate" />
+
+            <RadioButton
+                android:id="@+id/rb_heavy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/heavy" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tv_xercise_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/amount_of_exercise"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_info"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/submit" />
+
+    <Button
+        android:id = "@+id/button_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/button_submit"
+        android:layout_marginTop="15dp"
+        android:text="@string/home" />
+
+</RelativeLayout>
