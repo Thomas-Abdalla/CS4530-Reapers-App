@@ -1,5 +1,6 @@
 package com.example.cs4530_mobileapp
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,11 @@ class HomePageFragment : Fragment(), View.OnClickListener {
     private var mButtonProfile: Button? = null
     private var mTVBMI: TextView? = null
     private var mTVCalorie: TextView? = null
+    //fun fragment function
+    var mDataPasser: DataPassingInterface? = null
+    interface DataPassingInterface {
+        fun passData(data: Array<String?>?)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,13 +48,22 @@ class HomePageFragment : Fragment(), View.OnClickListener {
         return view
     }
 
+    //prepping for sending to activity
+    override fun onAttach(context: Context){
+        super.onAttach(context)
+        mDataPasser = try {
+            context as HomePageFragment.DataPassingInterface
+        } catch (e: ClassCastException) {
+            throw ClassCastException("$context must implement UserInfoFragment.DataPassingInterface")
+        }
+    }
+
     override fun onClick(view: View) {
         when(view.id){
             R.id.button_profile ->{
-                //TODO--> Set up sending intent data to Activity
-                //send intent for MainActivity (user info page)
-                //val mainActivityIntent = Intent(this, MainActivity::class.java)
-                //startActivity(mainActivityIntent)
+                var buttonClicked: Array<String?>?
+                buttonClicked = arrayOf("frag change", "list")
+                mDataPasser!!.passData(buttonClicked)
             }
         }
     }

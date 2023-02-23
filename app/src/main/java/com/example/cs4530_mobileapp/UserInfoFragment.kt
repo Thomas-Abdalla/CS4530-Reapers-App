@@ -10,10 +10,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RadioButton
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -50,6 +47,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
     //fragment stuff
     var inBundle = arguments
     var mDataPasser: DataPassingInterface? = null
+
     interface DataPassingInterface {
         fun passData(data: Array<String?>?)
     }
@@ -102,19 +100,19 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
 
                 //Check if the EditText string is empty
                 if (mFullName.isNullOrBlank()) {
-//                    //Complain that there's no text
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Please enter data in all fields",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    //Complain that there's no text
+                    Toast.makeText(
+                        activity,
+                        "Please enter data in all fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-//                    //Reward them for submitting their names
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Welcome!",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    //Reward them for submitting their names
+                    Toast.makeText(
+                        activity,
+                        "Data Saved!",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                     //Remove any leading spaces or tabs
                     mFullName = mFullName!!.replace("^\\s+".toRegex(), "")
@@ -123,11 +121,11 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                     val splitStrings = mFullName!!.split("\\s+".toRegex()).toTypedArray()
                     when (splitStrings.size) {
                         1 -> {
-//                            Toast.makeText(
-//                                this@MainActivity,
-//                                "Enter both first and last name, separated by a space",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
+                            Toast.makeText(
+                                activity,
+                                "Enter both first and last name, separated by a space",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         2 -> {
                             mFirstName = splitStrings[0]
@@ -135,53 +133,53 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
 
                         }
                         else -> {
-//                            Toast.makeText(
-//                                this@MainActivity,
-//                                "Enter only first and last name!",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
+                            Toast.makeText(
+                                activity,
+                                "Enter only first and last name!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
 
                 //Next get the age from the age NumberPicker
-                mEtAge = view?.findViewById(R.id.et_age) as EditText?
+                mEtAge = view.findViewById(R.id.et_age) as EditText?
                 if (!mEtAge?.text.isNullOrBlank()) {
                     mAge = Integer.parseInt(mEtAge?.text.toString())
                 }
                 if (mAge == 0 || mAge == null){ //throw warning if incorrect data
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Please enter data in all fields",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    Toast.makeText(
+                        activity,
+                        "Please enter data in all fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 //Next get the height from the height NumberPicker
-                mEtHeight = view?.findViewById(R.id.et_height) as EditText?
+                mEtHeight = view.findViewById(R.id.et_height) as EditText?
                 if (!mEtHeight?.text.isNullOrBlank()) {
                     mHeight = Integer.parseInt(mEtHeight?.text.toString())
                 }
                 val splitByValues = Array(2){i->i.toString()}
                 if (mHeight == 0 || mHeight == null) { //throw warning if no data
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Please enter data in all fields",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    Toast.makeText(
+                        activity,
+                        "Please enter data in all fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 //Next get the weight from the weight EditTexts
-                mEtWeight = view?.findViewById(R.id.et_weight) as EditText?
+                mEtWeight = view.findViewById(R.id.et_weight) as EditText?
                 if (!mEtWeight?.text.isNullOrBlank()) {
                     mWeight = Integer.parseInt(mEtWeight?.text.toString())
                 }
                 if (mWeight == 0 || mWeight == null) { //throw warning if bad data
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Please enter data in all fields",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    Toast.makeText(
+                        activity,
+                        "Please enter data in all fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 //Next check Sex Radio Group inputs
@@ -190,11 +188,11 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 else if (mRBFemale!!.isChecked)
                     mSex = 1
                 else if (!mRBMale!!.isChecked || !mRBFemale!!.isChecked)
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Please Select a sex for BMI and Calorie calculation",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    Toast.makeText(
+                        activity,
+                        "Please Select a sex for BMI and Calorie calculation",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 //Next check Activity Level Radio Group inputs
                 if (mRBActLow!!.isChecked)
@@ -204,11 +202,12 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 else if (mRBActHigh!!.isChecked)
                     mActivityLvl = 2
                 else
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        "Please select an activity level for BMI and calorie calculation",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    Toast.makeText(
+                        activity,
+                        "Please select an activity level for BMI and calorie calculation",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 if(mWeight != null && splitByValues[0].isNotBlank() && splitByValues[0].isNotBlank())
                     mBMI = (703 * mWeight!!.toFloat()/(mHeight!!.toFloat().pow(2)))
 
@@ -222,12 +221,16 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
 
             //no intents in fragments
             R.id.button_home ->{
-                //<--TODO--> implement data sending to main activity
-                //send intent for home page
-                //val homeActivityIntent = Intent(this, HomePageActivity::class.java)
-                //homeActivityIntent.putExtra("BMI",mBMI!!)
-                //homeActivityIntent.putExtra("Calories", mDailyCalories!!)
-                //startActivity(homeActivityIntent)
+                //pass user info into activity
+                var dataToPass: Array<String?>? = arrayOf("data", mFirstName, mLastName, mAge.toString(),
+                                                            mHeight.toString(), mWeight.toString(),
+                                                            mBMI.toString(), mDailyCalories.toString(),
+                                                            mSex.toString(), mActivityLvl.toString())
+                mDataPasser!!.passData(dataToPass)
+
+                //pass fragment change request to activity
+                dataToPass = arrayOf("frag change", "list")
+                mDataPasser!!.passData(dataToPass)
             }
 
             R.id.button_pic -> {
@@ -241,6 +244,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
     private val cameraActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result ->
         if(result.resultCode == AppCompatActivity.RESULT_OK) {
