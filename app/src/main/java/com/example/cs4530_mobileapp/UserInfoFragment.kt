@@ -222,7 +222,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
             //no intents in fragments
             R.id.button_home ->{
                 //pass user info into activity
-                var dataToPass: Array<String?>? = arrayOf("data", mFirstName, mLastName, mAge.toString(),
+                var dataToPass: Array<String?>? = arrayOf("user info data", mFirstName, mLastName, mAge.toString(),
                                                             mHeight.toString(), mWeight.toString(),
                                                             mBMI.toString(), mDailyCalories.toString(),
                                                             mSex.toString(), mActivityLvl.toString())
@@ -257,17 +257,6 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 result.data!!.getParcelableExtra<Bitmap>("data")
             }
             mIvPic!!.setImageBitmap(thumbnailImage)
-
-            //TODO--> decipher what is done in fragment vs in activity
-            //if(isExternalStorageWritable)
-            //{
-           //    saveImage(thumbnailImage)
-           // }
-            //else
-            //{
-                //Toast.makeText(this, "External storage not writable.", Toast.LENGTH_SHORT).show()
-            //}
-
         }
     }
 
