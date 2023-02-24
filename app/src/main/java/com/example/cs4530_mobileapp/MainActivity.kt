@@ -29,11 +29,17 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     private var mActivityLvl: Int? = null // 0 = sedentary; 1 = moderate; 2 = very active;
     //Create the variable for the ImageView that holds the profile pic
     private var mIvPic: ImageView? = null
+    private val isTablet: Boolean
+        get() = resources.getBoolean(R.bool.isTablet)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        if(isTablet){
+            setContentView(R.layout.activity_main_tab)
+            //TODO--> set up master list into fl_list here!
+        } else {
+            setContentView(R.layout.activity_main_pho)
+        }
         val fTrans = supportFragmentManager.beginTransaction()
         fTrans.replace(R.id.fl_fragContainer, UserInfoFragment(), "current_frag")
         fTrans.commit()
