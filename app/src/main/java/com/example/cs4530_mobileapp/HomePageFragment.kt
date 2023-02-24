@@ -1,12 +1,19 @@
 package com.example.cs4530_mobileapp
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.*
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 
 class HomePageFragment : Fragment(), View.OnClickListener {
@@ -16,6 +23,8 @@ class HomePageFragment : Fragment(), View.OnClickListener {
 
     //initialize UI variables
     private var mButtonProfile: Button? = null
+    private var mButtonHikes: Button? = null
+    private var mButtonWeather: Button? = null
     private var mTVBMI: TextView? = null
     private var mTVCalorie: TextView? = null
     //fun fragment function
@@ -38,11 +47,16 @@ class HomePageFragment : Fragment(), View.OnClickListener {
 
         //link .kt to .xml
         mButtonProfile = view?.findViewById(R.id.button_profile) as Button?
+        mButtonWeather = view?.findViewById(R.id.button_weather) as Button?
+        mButtonHikes = view?.findViewById(R.id.button_hikes) as Button?
         mTVBMI = view?.findViewById(R.id.tv_bmi_value) as TextView?
         mTVCalorie = view?.findViewById(R.id.tv_calorie_value) as TextView?
 
         //link button to onClick
         mButtonProfile!!.setOnClickListener(this)
+        mButtonHikes!!.setOnClickListener(this)
+        mButtonWeather!!.setOnClickListener(this)
+
 
         mTVBMI!!.text = mBMI.toString()
         mTVCalorie!!.text = mDailyCalories.toString()
@@ -66,6 +80,33 @@ class HomePageFragment : Fragment(), View.OnClickListener {
                 var buttonClicked: Array<String?>?
                 buttonClicked = arrayOf("frag change", "list")
                 mDataPasser!!.passData(buttonClicked)
+            }
+            R.id.button_hikes ->{
+
+                //Get the string from the EditText
+                val mSearchString = "hikes near me"
+                    //We have to grab the search term and construct a URI object from it.
+                    //We'll hardcode WEB's location here
+                    val searchUri = Uri.parse("geo:40.767778,-111.845205?q=$mSearchString")
+
+                    //Create the implicit intent
+                    val mapIntent = Intent(Intent.ACTION_VIEW, searchUri)
+
+                    //If there's an activity associated with this intent, launch it
+                    try{
+                        startActivity(mapIntent)
+                    }catch(ex: ActivityNotFoundException){
+                        //handle errors here
+                    }
+                }
+
+            R.id.button_weather ->{
+                val cameraIntent = makeMainSelectorActivity(ACTION_MAIN,CATEGORY_APP_WEATHER)
+                try{
+                    startActivity(cameraIntent)
+                }catch(ex: ActivityNotFoundException){
+                    //Do error handling here
+                }
             }
         }
     }
