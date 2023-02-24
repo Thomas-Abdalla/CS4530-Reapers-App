@@ -35,10 +35,12 @@ class HomePageFragment : Fragment(), View.OnClickListener {
         val inBundle = arguments
         mBMI = inBundle!!.getFloat("BMI")
         mDailyCalories = inBundle.getInt("Calories")
+
         //link .kt to .xml
         mButtonProfile = view?.findViewById(R.id.button_profile) as Button?
         mTVBMI = view?.findViewById(R.id.tv_bmi_value) as TextView?
         mTVCalorie = view?.findViewById(R.id.tv_calorie_value) as TextView?
+
         //link button to onClick
         mButtonProfile!!.setOnClickListener(this)
 

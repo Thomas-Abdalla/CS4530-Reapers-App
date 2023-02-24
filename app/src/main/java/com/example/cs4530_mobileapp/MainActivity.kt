@@ -168,12 +168,20 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 mActivityLvl = data[9]!!.toInt()
             }
             "frag change" -> {
-                val newFrag:String = data[1]!!
+                val newFrag: String = data[1]!!
                 when (newFrag){
                     "list" -> {
                         //TODO--> return master list to fragContainer (if on phone)
+                        //}
+                        //"home" -> {
+                        val mBundle = Bundle()
+                        val homePageFragment = HomePageFragment()
+                        mBundle.putFloat("BMI", mBMI!!)
+                        mBundle.putInt("Calories", mDailyCalories!!)
+                        homePageFragment.arguments = mBundle
+
                         val fTrans = supportFragmentManager.beginTransaction()
-                        fTrans.replace(R.id.fl_fragContainer, HomePageFragment(), "current_frag")
+                        fTrans.replace(R.id.fl_fragContainer, homePageFragment, "current_frag")
                         fTrans.commit()
                     }
                 }
