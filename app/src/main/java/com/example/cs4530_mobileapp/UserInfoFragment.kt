@@ -95,7 +95,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
             R.id.button_submit -> {
 
                 //First, get the names from the name EditText
-                mEtFullName = view.findViewById(R.id.et_name) as EditText?
+                mEtFullName = getView()?.findViewById(R.id.et_name) as EditText?
                 mFullName = mEtFullName!!.text.toString()
 
                 //Check if the EditText string is empty
@@ -143,7 +143,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 }
 
                 //Next get the age from the age NumberPicker
-                mEtAge = view.findViewById(R.id.et_age) as EditText?
+                mEtAge = getView()?.findViewById(R.id.et_age) as EditText?
                 if (!mEtAge?.text.isNullOrBlank()) {
                     mAge = Integer.parseInt(mEtAge?.text.toString())
                 }
@@ -156,7 +156,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 }
 
                 //Next get the height from the height NumberPicker
-                mEtHeight = view.findViewById(R.id.et_height) as EditText?
+                mEtHeight = getView()?.findViewById(R.id.et_height) as EditText?
                 if (!mEtHeight?.text.isNullOrBlank()) {
                     mHeight = Integer.parseInt(mEtHeight?.text.toString())
                 }
@@ -170,7 +170,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 }
 
                 //Next get the weight from the weight EditTexts
-                mEtWeight = view.findViewById(R.id.et_weight) as EditText?
+                mEtWeight = getView()?.findViewById(R.id.et_weight) as EditText?
                 if (!mEtWeight?.text.isNullOrBlank()) {
                     mWeight = Integer.parseInt(mEtWeight?.text.toString())
                 }
