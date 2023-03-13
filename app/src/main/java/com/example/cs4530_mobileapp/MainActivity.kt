@@ -34,14 +34,29 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(isTablet){
-            setContentView(R.layout.activity_main_tab)
-            //TODO--> set up master list into fl_list here!
-        } else {
-            setContentView(R.layout.activity_main_pho)
-        }
+
+        //Prep Master-Detail List
+        var listOfFrags: Array<String?>? = arrayOf ("Home Page",    //requirement #2 and #5
+                                                    "User Info",    //requirement #1
+                                                    "Hikes",        //requirement #3
+                                                    "Weather")      //requirement #4
+
+        //Place M-D into bundle for frags
+        val mastDeetBundle = Bundle()
+        mastDeetBundle.putStringArray("item_list", listOfFrags)
+
+        val listFrag = MasterListFragment()
+        listFrag.arguments = mastDeetBundle
         val fTrans = supportFragmentManager.beginTransaction()
-        fTrans.replace(R.id.fl_fragContainer, UserInfoFragment(), "current_frag")
+
+        if(isTablet){ //if tablet, only initialize the list side bar
+            setContentView(R.layout.activity_main_tab)
+            fTrans.replace(R.id.fl_listContainer_tab,listFrag, "md_list_frag")
+        } else {    //else if phone, initialize entire screen with list
+            setContentView(R.layout.activity_main_pho)
+            fTrans.replace(R.id.fl_fragContainer, listFrag, "current_frag")
+        }
+
         fTrans.commit()
     }
 
