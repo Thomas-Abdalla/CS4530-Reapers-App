@@ -215,6 +215,15 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                         fTrans.replace(R.id.fl_fragContainer, homePageFragment, "current_frag")
                         fTrans.commit()
                     }
+                    "user info" -> {
+                        //TODO: implement and add user info frag here
+                    }
+                    "hikes" -> {
+                        //TODO: implement and add hike frag here
+                    }
+                    "weather" -> {
+                        //TODO: implement and add weather info frag here
+                    }
                 }
             }
         }
