@@ -32,18 +32,18 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     private val isTablet: Boolean
         get() = resources.getBoolean(R.bool.isTablet)
 
+    //Prep Master-Detail List
+    private val listOfHeaders: Array<String?> = arrayOf ("Home Page",    //requirement #2 and #5
+                                                         "User Info",    //requirement #1
+                                                         "Hikes",        //requirement #3
+                                                         "Weather")      //requirement #4
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Prep Master-Detail List
-        var listOfFrags: Array<String?>? = arrayOf ("Home Page",    //requirement #2 and #5
-                                                    "User Info",    //requirement #1
-                                                    "Hikes",        //requirement #3
-                                                    "Weather")      //requirement #4
-
         //Place M-D into bundle for frags
         val mastDeetBundle = Bundle()
-        mastDeetBundle.putStringArray("item_list", listOfFrags)
+        mastDeetBundle.putStringArray("item_list", listOfHeaders)
 
         val listFrag = MasterListFragment()
         listFrag.arguments = mastDeetBundle
@@ -190,18 +190,28 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             }
             "frag change" -> {
                 val newFrag: String = data[1]!!
+                val fTrans = supportFragmentManager.beginTransaction()
                 when (newFrag){
                     "list" -> {
                         //TODO--> return master list to fragContainer (if on phone)
-                        //}
-                        //"home" -> {
+                        if (!isTablet) {
+                            val mastDeetBundle = Bundle()
+                            mastDeetBundle.putStringArray("item_list", listOfHeaders)
+
+                            val listFrag = MasterListFragment()
+                            listFrag.arguments = mastDeetBundle
+
+                            fTrans.replace(R.id.fl_fragContainer, listFrag, "current_fragment")
+                            fTrans.commit()
+                            }
+                        }
+                    "home" -> {
                         val mBundle = Bundle()
                         val homePageFragment = HomePageFragment()
                         mBundle.putFloat("BMI", mBMI!!)
                         mBundle.putInt("Calories", mDailyCalories!!)
                         homePageFragment.arguments = mBundle
 
-                        val fTrans = supportFragmentManager.beginTransaction()
                         fTrans.replace(R.id.fl_fragContainer, homePageFragment, "current_frag")
                         fTrans.commit()
                     }
