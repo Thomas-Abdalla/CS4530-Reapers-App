@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MyRVAdapter(private val mListItems: ArrayList<String>?) :
-    RecyclerView.Adapter<MyRVAdapter.ViewHolder>() {
+class MyRVAdapter(private val mListItems: ArrayList<String>?) : RecyclerView.Adapter<MyRVAdapter.ViewHolder>() {
     private var mContext: Context? = null
 
     class ViewHolder(var itemLayout: View) : RecyclerView.ViewHolder(itemLayout){
@@ -28,7 +27,7 @@ class MyRVAdapter(private val mListItems: ArrayList<String>?) :
     }
 
     private fun sendData(position: Int){
-        //TODO send to activity which frag was clicked
+        //TODO send which frag was clicked
     }
 
     override fun getItemCount(): Int {
