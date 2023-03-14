@@ -193,7 +193,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 val fTrans = supportFragmentManager.beginTransaction()
                 when (newFrag){
                     "list" -> {
-                        //TODO--> return master list to fragContainer (if on phone)
                         if (!isTablet) {
                             val mastDeetBundle = Bundle()
                             mastDeetBundle.putStringArray("item_list", listOfHeaders)
