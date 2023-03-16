@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         get() = resources.getBoolean(R.bool.isTablet)
 
     //Prep Master-Detail List
-    private val listOfHeaders: Array<String?> = arrayOf ("Home Page",    //requirement #2 and #5
+    private val listOfHeaders: ArrayList<String?> = arrayListOf ("Home Page",    //requirement #2 and #5
                                                          "User Info",    //requirement #1
                                                          "Hikes",        //requirement #3
                                                          "Weather")      //requirement #4
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
 
         //Place M-D into bundle for frags
         val mastDeetBundle = Bundle()
-        mastDeetBundle.putStringArray("item_list", listOfHeaders)
+        mastDeetBundle.putStringArrayList("item_list", listOfHeaders)
 
         val listFrag = MasterListFragment()
         listFrag.arguments = mastDeetBundle
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                     "list" -> {
                         if (!isTablet) {
                             val mastDeetBundle = Bundle()
-                            mastDeetBundle.putStringArray("item_list", listOfHeaders)
+                            mastDeetBundle.putStringArrayList("item_list", listOfHeaders)
 
                             val listFrag = MasterListFragment()
                             listFrag.arguments = mastDeetBundle

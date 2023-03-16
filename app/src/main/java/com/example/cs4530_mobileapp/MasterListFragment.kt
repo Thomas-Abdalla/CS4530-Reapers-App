@@ -19,7 +19,7 @@ class MasterListFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val fragmentView = inflater.inflate(R.layout.fragment_master_list_list, container, false)
