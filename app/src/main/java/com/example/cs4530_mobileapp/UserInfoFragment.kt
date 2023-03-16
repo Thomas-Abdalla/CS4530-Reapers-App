@@ -208,14 +208,18 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                         Toast.LENGTH_SHORT
                     ).show()
 
-                if(mWeight != null && splitByValues[0].isNotBlank() && splitByValues[0].isNotBlank())
-                    mBMI = (703 * mWeight!!.toFloat()/(mHeight!!.toFloat().pow(2)))
+                if(mWeight != null && splitByValues[0].isNotBlank() && splitByValues[0].isNotBlank()) {
+                    if (mSex == 0)
+                        mBMI = (10 * mWeight!!.toFloat() + (mHeight!!.toFloat() * 6.25f) - 5* mAge!!.toFloat() + 5.0f)
+                    else
+                        mBMI = (10 * mWeight!!.toFloat() + (mHeight!!.toFloat() * 6.25f) - 5* mAge!!.toFloat() - 161.0f)
+                }
 
                 //Harris Benedict Equation
                 when(mActivityLvl){
-                    0 -> { mDailyCalories = (mBMI!! * 1.2f*100).toInt() }
-                    1 -> { mDailyCalories = (mBMI!! * 1.55f*100).toInt() }
-                    2 -> { mDailyCalories = (mBMI!! * 1.725f*100).toInt() }
+                    0 -> { mDailyCalories = (mBMI!! * 1.2f).toInt() }
+                    1 -> { mDailyCalories = (mBMI!! * 1.55f).toInt() }
+                    2 -> { mDailyCalories = (mBMI!! * 1.725f).toInt() }
                 }
             }
 

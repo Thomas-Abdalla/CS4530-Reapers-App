@@ -83,30 +83,11 @@ class HomePageFragment : Fragment(), View.OnClickListener {
             }
             R.id.button_hikes ->{
 
-                //Get the string from the EditText
-                val mSearchString = "hikes near me"
-                    //We have to grab the search term and construct a URI object from it.
-                    //We'll hardcode WEB's location here
-                    val searchUri = Uri.parse("geo:40.767778,-111.845205?q=$mSearchString")
-
-                    //Create the implicit intent
-                    val mapIntent = Intent(Intent.ACTION_VIEW, searchUri)
-
-                    //If there's an activity associated with this intent, launch it
-                    try{
-                        startActivity(mapIntent)
-                    }catch(ex: ActivityNotFoundException){
-                        //handle errors here
-                    }
+                mDataPasser!!.passData(arrayOf("frag change", "hikes"))
                 }
 
             R.id.button_weather ->{
-                val cameraIntent = makeMainSelectorActivity(ACTION_MAIN,CATEGORY_APP_WEATHER)
-                try{
-                    startActivity(cameraIntent)
-                }catch(ex: ActivityNotFoundException){
-                    //Do error handling here
-                }
+                mDataPasser!!.passData(arrayOf("frag change", "weather"))
             }
         }
     }

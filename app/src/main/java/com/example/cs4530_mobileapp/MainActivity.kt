@@ -1,6 +1,12 @@
 package com.example.cs4530_mobileapp
 
+import android.Manifest
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -10,12 +16,15 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import java.io.File
 import java.io.FileOutputStream
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
-                    HomePageFragment.DataPassingInterface {
+                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass {
     //Create variables to hold the three strings
     private var mFullName: String? = null
     private var mFirstName: String? = null
@@ -31,6 +40,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     private var mIvPic: ImageView? = null
     private val isTablet: Boolean
         get() = resources.getBoolean(R.bool.isTablet)
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     //Prep Master-Detail List
     private val listOfHeaders: ArrayList<String?> = arrayListOf ("Home Page",    //requirement #2 and #5
@@ -44,7 +54,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         //Place M-D into bundle for frags
         val mastDeetBundle = Bundle()
         mastDeetBundle.putStringArrayList("item_list", listOfHeaders)
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         val listFrag = MasterListFragment()
         listFrag.arguments = mastDeetBundle
         val fTrans = supportFragmentManager.beginTransaction()
@@ -215,10 +225,37 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                         fTrans.commit()
                     }
                     "user info" -> {
-                        //TODO: implement and add user info frag here
+                        val userInfoFragment = UserInfoFragment()
+                        fTrans.replace(R.id.fl_fragContainer,userInfoFragment, "current_frag")
+                        fTrans.commit()
                     }
                     "hikes" -> {
-                        //TODO: implement and add hike frag here
+                        if (ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                         ActivityCompat.requestPermissions(this, arrayOf("android.permission.ACCESS_COARSE_LOCATION"),0)
+
+                            return
+                        }
+                        fusedLocationClient.lastLocation
+                            .addOnSuccessListener { location : Location? ->
+                               val lat = location?.latitude
+                                val long = location?.longitude
+                                val searchUri = Uri.parse("geo:$lat,$long?q=hikes near me")
+                                val mapIntent = Intent(Intent.ACTION_VIEW, searchUri)
+
+                                //If there's an activity associated with this intent, launch it
+                                try{
+                                    startActivity(mapIntent)
+                                }catch(ex: ActivityNotFoundException){
+                                    //handle errors here
+                                }
+                            }
                     }
                     "weather" -> {
                         //TODO: implement and add weather info frag here
@@ -226,5 +263,9 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 }
             }
         }
+    }
+
+    override fun onDataPass(data: String?) {
+        passData(arrayOf("frag change",data))
     }
 }
