@@ -226,6 +226,62 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
             //no intents in fragments
             R.id.button_home ->{
                 //pass user info into activity
+                if (mFirstName.isNullOrBlank() || mLastName.isNullOrBlank()) {
+                    mFirstName = "John"
+                    mLastName = "Doe"
+                    Toast.makeText(
+                        activity,
+                        "First or last name left blank!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                if (mAge == null)
+                {
+                    mAge = 18;
+                    Toast.makeText(
+                        activity,
+                        "Age left blank!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                if (mHeight == null)
+                {
+                    mHeight = 70;
+                    Toast.makeText(
+                        activity,
+                        "Height left blank!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                if (mWeight == null)
+                {
+                    mWeight = 200;
+                    Toast.makeText(
+                        activity,
+                        "Weight left blank!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                if (mSex == null)
+                {
+                    mSex = 0;
+                    Toast.makeText(
+                        activity,
+                        "Sex left blank!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                if (mActivityLvl == null)
+                {
+                    mActivityLvl = 1;
+                    Toast.makeText(
+                        activity,
+                        "Activity Level left blank!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+
                 var dataToPass: Array<String?>? = arrayOf("user info data", mFirstName, mLastName, mAge.toString(),
                                                             mHeight.toString(), mWeight.toString(),
                                                             mBMI.toString(), mDailyCalories.toString(),
