@@ -1,6 +1,5 @@
 package com.example.cs4530_mobileapp
 
-import WeatherFragment
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -18,14 +17,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import java.io.File
 import java.io.FileOutputStream
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
-                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass,WeatherFragment.DataPassingInterface {
+                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass {
     //Create variables to hold the three strings
     private var mFullName: String? = null
     private var mFirstName: String? = null
@@ -70,6 +68,28 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             setContentView(R.layout.activity_main_pho)
             fTrans.replace(R.id.fl_fragContainer, listFrag, "current_frag")
         }
+        val mLocationRequest: LocationRequest.Builder = LocationRequest.Builder(5000)
+        mLocationRequest.setIntervalMillis(60000)
+        mLocationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        val callback :myLocationCallback = myLocationCallback()
+        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest.build(), callback, null)
 
         fTrans.commit()
     }
@@ -277,7 +297,11 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                             .addOnSuccessListener { location: Location? ->
                                 val lat = location?.latitude
                                 val long = location?.longitude
+                                val bundle:Bundle = Bundle()
+                                bundle.putString("lat",lat.toString())
+                                bundle.putString("long",long.toString())
                                 val weatherFragment = WeatherFragment()
+                                weatherFragment.arguments = bundle
                                 fTrans.replace(
                                     R.id.fl_fragContainer,
                                     weatherFragment,
@@ -293,4 +317,8 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     override fun onDataPass(data: String?) {
         passData(arrayOf("frag change", data))
     }
+}
+private class myLocationCallback : LocationCallback()
+{
+
 }
