@@ -57,6 +57,7 @@ class WeatherFragment : Fragment(), View.OnClickListener {
         mFetchWeatherTask.setWeakReference(this) //make sure we're always pointing to current version of fragment
         mBtSubmit = view.findViewById<View>(R.id.button_submit) as Button
         mBtSubmit!!.setOnClickListener(this)
+        loadWeatherData("")
         return view
     }
 
