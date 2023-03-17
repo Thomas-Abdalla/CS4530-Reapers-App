@@ -1,5 +1,6 @@
 package com.example.cs4530_mobileapp
 
+import WeatherFragment
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -24,7 +25,7 @@ import java.io.FileOutputStream
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
-                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass {
+                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass,WeatherFragment.DataPassingInterface {
     //Create variables to hold the three strings
     private var mFullName: String? = null
     private var mFirstName: String? = null
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     private var mDailyCalories: Int? = 0
     private var mSex: Int? = null          // 0 = male; 1 = female;
     private var mActivityLvl: Int? = null // 0 = sedentary; 1 = moderate; 2 = very active;
+
     //Create the variable for the ImageView that holds the profile pic
     private var mIvPic: ImageView? = null
     private val isTablet: Boolean
@@ -43,10 +45,12 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     //Prep Master-Detail List
-    private val listOfHeaders: ArrayList<String?> = arrayListOf ("Home Page",    //requirement #2 and #5
-                                                         "User Info",    //requirement #1
-                                                         "Hikes",        //requirement #3
-                                                         "Weather")      //requirement #4
+    private val listOfHeaders: ArrayList<String?> = arrayListOf(
+        "Home Page",    //requirement #2 and #5
+        "User Info",    //requirement #1
+        "Hikes",        //requirement #3
+        "Weather"
+    )      //requirement #4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,9 +63,9 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         listFrag.arguments = mastDeetBundle
         val fTrans = supportFragmentManager.beginTransaction()
 
-        if(isTablet){ //if tablet, only initialize the list side bar
+        if (isTablet) { //if tablet, only initialize the list side bar
             setContentView(R.layout.activity_main_tab)
-            fTrans.replace(R.id.fl_listContainer_tab,listFrag, "md_list_frag")
+            fTrans.replace(R.id.fl_listContainer_tab, listFrag, "md_list_frag")
         } else {    //else if phone, initialize entire screen with list
             setContentView(R.layout.activity_main_pho)
             fTrans.replace(R.id.fl_fragContainer, listFrag, "current_frag")
@@ -70,30 +74,26 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         fTrans.commit()
     }
 
-    private val cameraActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            result ->
-        if(result.resultCode == RESULT_OK) {
-            mIvPic = findViewById<View>(R.id.iv_pic) as ImageView
-            val thumbnailImage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                                {
-                                    result.data!!.getParcelableExtra("data")
-                                } else
-                                {
-                                    result.data!!.getParcelableExtra<Bitmap>("data")
-                                }
-            mIvPic!!.setImageBitmap(thumbnailImage)
+    private val cameraActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                mIvPic = findViewById<View>(R.id.iv_pic) as ImageView
+                val thumbnailImage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    result.data!!.getParcelableExtra("data")
+                } else {
+                    result.data!!.getParcelableExtra<Bitmap>("data")
+                }
+                mIvPic!!.setImageBitmap(thumbnailImage)
 
-            if(isExternalStorageWritable)
-            {
-                saveImage(thumbnailImage)
-            }
-            else
-            {
-                Toast.makeText(this, "External storage not writable.", Toast.LENGTH_SHORT).show()
-            }
+                if (isExternalStorageWritable) {
+                    saveImage(thumbnailImage)
+                } else {
+                    Toast.makeText(this, "External storage not writable.", Toast.LENGTH_SHORT)
+                        .show()
+                }
 
+            }
         }
-    }
 
     private fun saveImage(finalBitmap: Bitmap?) {
         val root = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -103,16 +103,13 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         val file = File(myDir, fname)
         if (file.exists())
             file.delete()
-        try
-        {
+        try {
             val out = FileOutputStream(file)
             finalBitmap!!.compress(Bitmap.CompressFormat.JPEG, 90, out)
             out.flush()
             out.close()
             Toast.makeText(this, "Picture saved!", Toast.LENGTH_SHORT).show()
-        }
-        catch (e: java.lang.Exception)
-        {
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
     }
@@ -125,45 +122,45 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
-        if(mFullName != null)
-            outState.putString("FullName",mFullName)
-        if(mFirstName!=null)
-            outState.putString("FirstName",mFirstName)
-        if(mLastName!=null)
-            outState.putString("LastName",mLastName)
-        if(mAge != null)
+        if (mFullName != null)
+            outState.putString("FullName", mFullName)
+        if (mFirstName != null)
+            outState.putString("FirstName", mFirstName)
+        if (mLastName != null)
+            outState.putString("LastName", mLastName)
+        if (mAge != null)
             outState.putInt("Age", mAge!!)
-        if(mHeight != null)
+        if (mHeight != null)
             outState.putInt("Height", mHeight!!)
-        if(mWeight != null)
-            outState.putInt("Weight",mWeight!!)
-        if(mBMI != null)
-            outState.putFloat("BMI",mBMI!!)
+        if (mWeight != null)
+            outState.putInt("Weight", mWeight!!)
+        if (mBMI != null)
+            outState.putFloat("BMI", mBMI!!)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if(savedInstanceState.getString("FullName") != null)
+        if (savedInstanceState.getString("FullName") != null)
             mFullName = savedInstanceState.getString("FullName").toString()
-        if(savedInstanceState.getString("FirstName") != null)
+        if (savedInstanceState.getString("FirstName") != null)
             mFirstName = savedInstanceState.getString("FirstName").toString()
-        if(savedInstanceState.getString("LastName") != null)
+        if (savedInstanceState.getString("LastName") != null)
             mLastName = savedInstanceState.getString("LastName").toString()
-        if(savedInstanceState.getString("Height") != null)
+        if (savedInstanceState.getString("Height") != null)
             mHeight = savedInstanceState.getString("Height").toString().toInt()
-        if(savedInstanceState.getString("Age") != null)
+        if (savedInstanceState.getString("Age") != null)
             mAge = savedInstanceState.getString("Age").toString().toInt()
-        if(savedInstanceState.getString("Weight") != null)
+        if (savedInstanceState.getString("Weight") != null)
             mWeight = savedInstanceState.getString("Weight").toString().toInt()
-        if(savedInstanceState.getString("BMI") != null)
+        if (savedInstanceState.getString("BMI") != null)
             mBMI = savedInstanceState.getString("BMI").toString().toFloat()
     }
 
     override fun onStop() {
         super.onStop()
-        val filename:String?
-        var fileContents:String?
-        if(mFullName != null) {
+        val filename: String?
+        var fileContents: String?
+        if (mFullName != null) {
             filename = mFullName!!
             fileContents = ""
             fileContents += mFullName!!.toString() + "\n"
@@ -177,8 +174,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 val output = openFileOutput(filename, MODE_PRIVATE)
                 output.write(fileContents.toByteArray())
                 output.close()
-            } catch (e : Exception)
-            {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -186,7 +182,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     }
 
     override fun passData(data: Array<String?>?) {
-        when (data!![0]){
+        when (data!![0]) {
             "user info data" -> {
                 mFirstName = data[1]
                 mLastName = data[2]
@@ -201,7 +197,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             "frag change" -> {
                 val newFrag: String = data[1]!!
                 val fTrans = supportFragmentManager.beginTransaction()
-                when (newFrag){
+                when (newFrag) {
                     "list" -> {
                         if (!isTablet) {
                             val mastDeetBundle = Bundle()
@@ -212,8 +208,8 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
 
                             fTrans.replace(R.id.fl_fragContainer, listFrag, "current_fragment")
                             fTrans.commit()
-                            }
                         }
+                    }
                     "home" -> {
                         val mBundle = Bundle()
                         val homePageFragment = HomePageFragment()
@@ -226,7 +222,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                     }
                     "user info" -> {
                         val userInfoFragment = UserInfoFragment()
-                        fTrans.replace(R.id.fl_fragContainer,userInfoFragment, "current_frag")
+                        fTrans.replace(R.id.fl_fragContainer, userInfoFragment, "current_frag")
                         fTrans.commit()
                     }
                     "hikes" -> {
@@ -238,34 +234,63 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                                 Manifest.permission.ACCESS_COARSE_LOCATION
                             ) != PackageManager.PERMISSION_GRANTED
                         ) {
-                         ActivityCompat.requestPermissions(this, arrayOf("android.permission.ACCESS_COARSE_LOCATION"),0)
+                            ActivityCompat.requestPermissions(
+                                this,
+                                arrayOf("android.permission.ACCESS_COARSE_LOCATION"),
+                                0
+                            )
 
                             return
                         }
                         fusedLocationClient.lastLocation
-                            .addOnSuccessListener { location : Location? ->
-                               val lat = location?.latitude
+                            .addOnSuccessListener { location: Location? ->
+                                val lat = location?.latitude
                                 val long = location?.longitude
                                 val searchUri = Uri.parse("geo:$lat,$long?q=hikes near me")
                                 val mapIntent = Intent(Intent.ACTION_VIEW, searchUri)
 
                                 //If there's an activity associated with this intent, launch it
-                                try{
+                                try {
                                     startActivity(mapIntent)
-                                }catch(ex: ActivityNotFoundException){
+                                } catch (ex: ActivityNotFoundException) {
                                     //handle errors here
                                 }
                             }
                     }
                     "weather" -> {
-                        //TODO: implement and add weather info frag here
+                        if (ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ActivityCompat.requestPermissions(
+                                this,
+                                arrayOf("android.permission.ACCESS_COARSE_LOCATION"),
+                                0
+                            )
+                            return
+                        }
+                        fusedLocationClient.lastLocation
+                            .addOnSuccessListener { location: Location? ->
+                                val lat = location?.latitude
+                                val long = location?.longitude
+                                val weatherFragment = WeatherFragment()
+                                fTrans.replace(
+                                    R.id.fl_fragContainer,
+                                    weatherFragment,
+                                    "current_frag"
+                                )
+                                fTrans.commit()
+                            }
                     }
                 }
             }
         }
     }
-
     override fun onDataPass(data: String?) {
-        passData(arrayOf("frag change",data))
+        passData(arrayOf("frag change", data))
     }
 }
