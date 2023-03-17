@@ -14,9 +14,8 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlin.math.pow
 
-class UserInfoFragment : Fragment(), View.OnClickListener {
+class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarChangeListener {
     //Create variables to hold the three strings
     private var mFullName: String? = null
     private var mFirstName: String? = null
@@ -33,9 +32,9 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
     private var mButtonCamera: Button? = null
     private var mButtonHome: Button? = null
     private var mEtFullName: EditText? = null
-    private var mEtAge: EditText? = null
-    private var mEtHeight: EditText? = null
-    private var mEtWeight: EditText? = null
+    private var SBAge: SeekBar? = null
+    private var SBHeight: SeekBar? = null
+    private var SBWeight: SeekBar? = null
     private var mRBMale: RadioButton? = null
     private var mRBFemale: RadioButton? = null
     private var mRBActLow: RadioButton? = null
@@ -74,6 +73,12 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
         mButtonCamera = view?.findViewById(R.id.button_pic) as Button?
         mButtonHome = view?.findViewById(R.id.button_home) as Button?
 
+        //Get the sliders
+        SBAge = view?.findViewById(R.id.sb_age) as SeekBar?
+        SBWeight = view?.findViewById(R.id.sb_weight) as SeekBar?
+        SBHeight = view?.findViewById(R.id.sb_height) as SeekBar?
+
+
         //Get the Radio Buttons
         mRBMale = view?.findViewById(R.id.rb_male) as RadioButton?
         mRBFemale = view?.findViewById(R.id.rb_female) as RadioButton?
@@ -86,7 +91,40 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
         mButtonCamera!!.setOnClickListener(this)
         mButtonHome!!.setOnClickListener(this)
 
+        // Get the sliders and listeners
+        SBAge!!.setOnSeekBarChangeListener(this)
+        SBWeight!!.setOnSeekBarChangeListener(this)
+        SBHeight!!.setOnSeekBarChangeListener(this)
+
+
         return view
+    }
+    override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+        when (seekBar.id) {
+            R.id.sb_age -> {
+                var age = (view?.findViewById(R.id.sb_age) as SeekBar?)?.progress
+                (view?.findViewById(R.id.tv_age_curr_value) as TextView).text = age.toString()
+            }
+
+            R.id.sb_weight -> {
+                var weight = (view?.findViewById(R.id.sb_weight) as SeekBar?)?.progress
+                (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text = weight.toString()
+            }
+
+
+            R.id.sb_height -> {
+                var height = (view?.findViewById(R.id.sb_height) as SeekBar?)?.progress
+                (view?.findViewById(R.id.tv_height_curr_value) as TextView).text = height.toString()
+            }
+
+
+        }
+    }
+
+    override fun onStartTrackingTouch(p0: SeekBar?) {
+    }
+
+    override fun onStopTrackingTouch(p0: SeekBar?) {
     }
 
     //Handle clicks for ALL buttons here
@@ -143,10 +181,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 }
 
                 //Next get the age from the age NumberPicker
-                mEtAge = getView()?.findViewById(R.id.et_age) as EditText?
-                if (!mEtAge?.text.isNullOrBlank()) {
-                    mAge = Integer.parseInt(mEtAge?.text.toString())
-                }
+                SBAge = getView()?.findViewById(R.id.sb_age) as SeekBar?
+                mAge = Integer.parseInt(SBAge?.progress.toString())
                 if (mAge == 0 || mAge == null){ //throw warning if incorrect data
                     Toast.makeText(
                         activity,
@@ -156,10 +192,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 }
 
                 //Next get the height from the height NumberPicker
-                mEtHeight = getView()?.findViewById(R.id.et_height) as EditText?
-                if (!mEtHeight?.text.isNullOrBlank()) {
-                    mHeight = Integer.parseInt(mEtHeight?.text.toString())
-                }
+                SBHeight = getView()?.findViewById(R.id.sb_height) as SeekBar?
+                mHeight = Integer.parseInt(SBHeight?.progress.toString())
                 val splitByValues = Array(2){i->i.toString()}
                 if (mHeight == 0 || mHeight == null) { //throw warning if no data
                     Toast.makeText(
@@ -170,10 +204,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener {
                 }
 
                 //Next get the weight from the weight EditTexts
-                mEtWeight = getView()?.findViewById(R.id.et_weight) as EditText?
-                if (!mEtWeight?.text.isNullOrBlank()) {
-                    mWeight = Integer.parseInt(mEtWeight?.text.toString())
-                }
+                SBWeight = getView()?.findViewById(R.id.sb_weight) as SeekBar?
+                mWeight = Integer.parseInt(SBWeight?.progress.toString())
                 if (mWeight == 0 || mWeight == null) { //throw warning if bad data
                     Toast.makeText(
                         activity,
