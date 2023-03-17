@@ -29,7 +29,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
     private var mActivityLvl: Int? = null // 0 = sedentary; 1 = moderate; 2 = very active;
     //Create variables for the UI elements that we need to control
     private var mButtonSubmit: Button? = null
-    private var mButtonCamera: Button? = null
+    private var mButtonCamera: ImageButton? = null
     private var mButtonHome: Button? = null
     private var mEtFullName: EditText? = null
     private var SBAge: SeekBar? = null
@@ -70,7 +70,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
 
         //Get the buttons
         mButtonSubmit = view?.findViewById(R.id.button_submit) as Button?
-        mButtonCamera = view?.findViewById(R.id.button_pic) as Button?
+        mButtonCamera = view?.findViewById(R.id.button_pic) as ImageButton?
         mButtonHome = view?.findViewById(R.id.button_home) as Button?
 
         //Get the sliders

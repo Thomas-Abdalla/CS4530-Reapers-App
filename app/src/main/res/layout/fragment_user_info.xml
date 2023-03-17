@@ -5,37 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@color/blue"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button_pic"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="266dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="2dp"
-        android:text="@string/take_a_picture" />
-
-    <ImageView
-        android:id="@+id/iv_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="252dp"
-        android:layout_toLeftOf="@id/button_pic" />
 
     <LinearLayout
         android:id="@+id/ll_info"
-        android:layout_width="385dp"
-        android:layout_height="377dp"
-        android:layout_below="@+id/button_pic"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="-63dp"
+        android:layout_width="378dp"
+        android:layout_height="513dp"
+        android:layout_centerHorizontal="true"
         android:orientation="vertical"
         android:padding="5dp"
         tools:context=".MainActivity">
+
+        <LinearLayout
+            android:id="@+id/ll_pictures"
+            android:layout_width="131dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            tools:context=".MainActivity">
+
+            <ImageView
+                android:id="@+id/iv_pic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="false" />
+
+            <ImageButton
+                android:id="@+id/button_pic"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="266dp"
+                android:layout_marginEnd="1dp"
+                android:src="@android:drawable/ic_menu_camera" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_name"
@@ -45,14 +50,16 @@
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
             android:layout_weight="1"
-            android:text="@string/name_first_and_last" />
+            android:text="@string/name_first_and_last"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/et_name"
             android:layout_width="223dp"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_weight="2"
-            android:hint="@string/i_e_mickey_mouse" />
+            android:hint="@string/i_e_mickey_mouse"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_age"
@@ -61,38 +68,45 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:layout_weight="1"
-            android:text="@string/age_in_years" />
+            android:text="@string/age_in_years"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_age_curr_value"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="18" />
+            android:gravity="center"
+            android:text="18"
+            android:textColor="@color/white" />
+
 
         <SeekBar
             android:id="@+id/sb_age"
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_weight="2"
+            android:backgroundTintMode="screen"
             android:inputType="number"
             android:max="100"
             android:progress="18" />
-
 
         <TextView
             android:id="@+id/tv_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/weight_in_pounds" />
+            android:text="@string/weight_in_pounds"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_weight_curr_value"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="200" />
+            android:gravity="center"
+            android:text="200"
+            android:textColor="@color/white" />
 
         <SeekBar
             android:id="@+id/sb_weight"
@@ -108,14 +122,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/height_in_inches" />
+            android:text="@string/height_in_inches"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_height_curr_value"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="70" />
+            android:gravity="center"
+            android:text="70"
+            android:textColor="@color/white" />
 
         <SeekBar
             android:id="@+id/sb_height"
@@ -131,7 +148,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/sex" />
+            android:text="@string/sex"
+            android:textColor="@color/white" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -142,15 +160,17 @@
 
             <RadioButton
                 android:id="@+id/rb_male"
-                android:layout_width="74dp"
-                android:layout_height="wrap_content"
-                android:text="@string/male" />
+                android:layout_width="94dp"
+                android:layout_height="match_parent"
+                android:text="@string/male"
+                android:textColor="@color/white" />
 
             <RadioButton
                 android:id="@+id/rb_female"
-                android:layout_width="89dp"
-                android:layout_height="wrap_content"
-                android:text="@string/female" />
+                android:layout_width="118dp"
+                android:layout_height="58dp"
+                android:text="@string/female"
+                android:textColor="@color/white" />
         </RadioGroup>
 
         <TextView
@@ -158,54 +178,72 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/amount_of_exercise" />
+            android:text="@string/amount_of_exercise"
+            android:textColor="@color/white" />
 
         <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="379dp"
+            android:layout_height="61dp"
             android:layout_weight="3"
             android:orientation="horizontal">
 
 
             <RadioButton
                 android:id="@+id/rb_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/light" />
+                android:layout_width="107dp"
+                android:layout_height="match_parent"
+                android:text="@string/light"
+                android:textColor="@color/white" />
 
             <RadioButton
                 android:id="@+id/rb_moderate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="133dp"
+                android:layout_height="58dp"
                 android:layout_marginStart="10dp"
-                android:text="@string/moderate" />
+                android:text="@string/moderate"
+                android:textColor="@color/white" />
 
             <RadioButton
                 android:id="@+id/rb_heavy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="112dp"
+                android:layout_height="58dp"
                 android:layout_marginStart="10dp"
-                android:text="@string/heavy" />
+                android:text="@string/heavy"
+                android:textColor="@color/white" />
         </RadioGroup>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_submit"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_buttons"
+        android:layout_width="106dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_info"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/submit" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="63dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        tools:context=".MainActivity">
 
-    <Button
-        android:id = "@+id/button_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button_submit"
-        android:layout_marginTop="5dp"
-        android:text="@string/home" />
+        <Button
+            android:id="@+id/button_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/submit" />
+
+        <Button
+            android:id="@+id/button_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_submit"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="false"
+            android:layout_marginEnd="1dp"
+            android:text="@string/home" />
+    </LinearLayout>
+
 
 </RelativeLayout>
