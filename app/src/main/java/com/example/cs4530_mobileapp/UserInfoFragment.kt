@@ -61,6 +61,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -146,6 +147,86 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
 
 
         return view
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+        if(savedInstanceState != null) {
+            if(savedInstanceState!!.getString("firstName") != null)
+                mFirstName = savedInstanceState!!.getString("firstName")
+            if(savedInstanceState!!.getString("lastName") != null)
+                mLastName = savedInstanceState!!.getString("lastName")
+            if(savedInstanceState!!.getString("age") != null) {
+                SBAge?.progress = savedInstanceState!!.getString("age").toString().toInt()
+                (view?.findViewById(R.id.tv_age_curr_value) as TextView).text =
+                    savedInstanceState!!.getString("age").toString()
+            }
+            if(savedInstanceState!!.getString("height") != null) {
+                SBHeight?.progress = savedInstanceState!!.getString("height").toString().toInt()
+                (view?.findViewById(R.id.tv_height_curr_value) as TextView).text =
+                    savedInstanceState!!.getString("height").toString()
+            }
+            if(savedInstanceState!!.getString("weight") != null) {
+                SBWeight?.progress = savedInstanceState!!.getString("weight").toString().toInt()
+                (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text = inBundle!!.getString("weight").toString()
+            }
+            if(savedInstanceState!!.getString("sex") != null){
+                var sex: Int = savedInstanceState!!.getString("sex").toString().toInt()
+                if (sex == 0) {
+                    mRBMale?.isChecked = true
+                }
+                else if (sex == 1) {
+                    mRBFemale?.isChecked = true
+                }
+
+            }
+            if(savedInstanceState!!.getString("act") != null) {
+                var act: Int = savedInstanceState!!.getString("act").toString().toInt()
+                if (act == 0) {
+                    mRBActLow?.isChecked = true
+                }
+                else if (act == 1) {
+                    mRBActMed?.isChecked = true
+                }
+                else if (act == 2) {
+                    mRBActHigh?.isChecked = true
+                }
+                if (mFirstName != null && mLastName != null)
+                {
+                    mFullName = mFirstName + " " + mLastName
+                    mEtFullName?.setText(mFullName)
+                }
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        if(mFirstName != null)
+            outState.putString("firstName",mFirstName)
+        if(mLastName != null)
+            outState.putString("lastName",mLastName)
+            outState.putString("age",SBAge?.progress.toString())
+            outState.putString("height",SBHeight?.progress.toString())
+            outState.putString("weight",SBWeight?.progress.toString())
+        if(mRBMale!!.isChecked)
+            outState.putString("sex","0")
+        else
+            outState.putString("sex","1")
+        if (mRBActLow!!.isChecked) {
+                    outState.putString("act","0")
+        }
+        else if (mRBActMed!!.isChecked) {
+                    outState.putString("act","1")
+        }
+        else if (mRBActHigh!!.isChecked) {
+                    outState.putString("act","2")
+        }
+
+
+
     }
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
         when (seekBar.id) {
@@ -318,6 +399,12 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     1 -> { mDailyCalories = (mBMI!! * 1.55f).toInt() }
                     2 -> { mDailyCalories = (mBMI!! * 1.725f).toInt() }
                 }
+                var dataToPass: Array<String?>? = arrayOf("user info data", mFirstName, mLastName, mAge.toString(),
+                    mHeight.toString(), mWeight.toString(),
+                    mBMI.toString(), mDailyCalories.toString(),
+                    mSex.toString(), mActivityLvl.toString())
+                mDataPasser!!.passData(dataToPass)
+
             }
 
             //no intents in fragments
