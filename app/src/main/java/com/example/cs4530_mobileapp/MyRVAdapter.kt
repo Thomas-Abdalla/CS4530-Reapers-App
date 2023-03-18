@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MyRVAdapter(private val mListItems: ArrayList<String>?,private var handler: passData) : RecyclerView.Adapter<MyRVAdapter.ViewHolder>() {
+class MyRVAdapter(private val mListItems: ArrayList<String>?,private var handler: PassData) : RecyclerView.Adapter<MyRVAdapter.ViewHolder>() {
     private var mContext: Context? = null
 
     class ViewHolder(var itemLayout: View) : RecyclerView.ViewHolder(itemLayout){
@@ -48,7 +48,7 @@ class MyRVAdapter(private val mListItems: ArrayList<String>?,private var handler
     override fun getItemCount(): Int {
         return mListItems!!.size
     }
-    interface passData {
+    interface PassData {
         fun onDataPass(data: String?)
     }
 

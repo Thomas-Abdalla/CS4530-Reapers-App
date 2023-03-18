@@ -336,7 +336,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 //Next get the age from the age NumberPicker
                 SBAge = getView()?.findViewById(R.id.sb_age) as SeekBar?
                 mAge = Integer.parseInt(SBAge?.progress.toString())
-                if (mAge == 0 || mAge == null){ //throw warning if incorrect data
+                if (mAge == 0){ //throw warning if incorrect data
                     Toast.makeText(
                         activity,
                         "Please enter data in all fields",
@@ -348,7 +348,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 SBHeight = getView()?.findViewById(R.id.sb_height) as SeekBar?
                 mHeight = Integer.parseInt(SBHeight?.progress.toString())
                 val splitByValues = Array(2){i->i.toString()}
-                if (mHeight == 0 || mHeight == null) { //throw warning if no data
+                if (mHeight == 0) { //throw warning if no data
                     Toast.makeText(
                         activity,
                         "Please enter data in all fields",
@@ -359,7 +359,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 //Next get the weight from the weight EditTexts
                 SBWeight = getView()?.findViewById(R.id.sb_weight) as SeekBar?
                 mWeight = Integer.parseInt(SBWeight?.progress.toString())
-                if (mWeight == 0 || mWeight == null) { //throw warning if bad data
+                if (mWeight == 0) { //throw warning if bad data
                     Toast.makeText(
                         activity,
                         "Please enter data in all fields",
@@ -463,7 +463,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 }
                 if (mSex == null)
                 {
-                    mSex = 0;
+                    mSex = 0
                     Toast.makeText(
                         activity,
                         "Sex left blank!",

@@ -1,19 +1,12 @@
 package com.example.cs4530_mobileapp
 
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
-import android.content.Intent.*
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 
 class HomePageFragment : Fragment(), View.OnClickListener {
@@ -28,7 +21,7 @@ class HomePageFragment : Fragment(), View.OnClickListener {
     private var mTVBMI: TextView? = null
     private var mTVCalorie: TextView? = null
     //fun fragment function
-    var mDataPasser: DataPassingInterface? = null
+    private var mDataPasser: DataPassingInterface? = null
     interface DataPassingInterface {
         fun passData(data: Array<String?>?)
     }
@@ -68,7 +61,7 @@ class HomePageFragment : Fragment(), View.OnClickListener {
     override fun onAttach(context: Context){
         super.onAttach(context)
         mDataPasser = try {
-            context as HomePageFragment.DataPassingInterface
+            context as DataPassingInterface
         } catch (e: ClassCastException) {
             throw ClassCastException("$context must implement UserInfoFragment.DataPassingInterface")
         }
@@ -77,7 +70,7 @@ class HomePageFragment : Fragment(), View.OnClickListener {
     override fun onClick(view: View) {
         when(view.id){
             R.id.button_profile ->{
-                var buttonClicked: Array<String?>?
+                val buttonClicked: Array<String?>?
                 buttonClicked = arrayOf("frag change", "list")
                 mDataPasser!!.passData(buttonClicked)
             }

@@ -24,8 +24,6 @@ class WeatherFragment : Fragment(), View.OnClickListener {
     private var mTvHum: TextView? = null
     private var mWeatherData: WeatherData? = null
     private var mBtSubmit: Button? = null
-    var lat: String? = null
-    var long: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,9 +84,8 @@ class WeatherFragment : Fragment(), View.OnClickListener {
 
         fun execute(location: String?) {
             executorService.execute {
-                var jsonWeatherData: String?
+                val jsonWeatherData: String?
                 val weatherDataURL = buildURLFromString(location!!)
-                jsonWeatherData = null
                 try {
                     jsonWeatherData = getDataFromURL(weatherDataURL!!)
                     postToMainThread(jsonWeatherData)

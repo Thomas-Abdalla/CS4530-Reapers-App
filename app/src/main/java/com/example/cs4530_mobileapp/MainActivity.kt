@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     private var mSex: Int? = null          // 0 = male; 1 = female;
     private var mActivityLvl: Int? = null  // 0 = sedentary; 1 = moderate; 2 = very active;
     //Create the variable for the ImageView that holds the profile pic
-    private var mIvPic: ImageView? = null
     private val isTablet: Boolean
         get() = resources.getBoolean(R.bool.isTablet)
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -56,7 +54,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         ) {
             return
         }
-        val callback :myLocationCallback = myLocationCallback()
+        val callback = myLocationCallback()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.requestLocationUpdates(mLocationRequest.build(), callback, null)
 

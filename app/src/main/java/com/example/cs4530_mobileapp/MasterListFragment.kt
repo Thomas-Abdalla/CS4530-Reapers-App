@@ -13,13 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * A fragment representing a list of Items.
  */
-class MasterListFragment : Fragment(), MyRVAdapter.passData {
+class MasterListFragment : Fragment(), MyRVAdapter.PassData {
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
-    lateinit var dataPasser: OnDataPass
-
-
+    private lateinit var dataPasser: OnDataPass
 
     override fun onCreateView(
         inflater: LayoutInflater,
