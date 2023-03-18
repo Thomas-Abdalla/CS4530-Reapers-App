@@ -208,9 +208,9 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
             outState.putString("firstName",mFirstName)
         if(mLastName != null)
             outState.putString("lastName",mLastName)
-            outState.putString("age",SBAge?.progress.toString())
-            outState.putString("height",SBHeight?.progress.toString())
-            outState.putString("weight",SBWeight?.progress.toString())
+        outState.putString("age",SBAge?.progress.toString())
+        outState.putString("height",SBHeight?.progress.toString())
+        outState.putString("weight",SBWeight?.progress.toString())
         if(mRBMale!!.isChecked)
             outState.putString("sex","0")
         else
