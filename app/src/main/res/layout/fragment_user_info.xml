@@ -8,7 +8,9 @@
     android:background="@color/blue"
     tools:context=".MainActivity">
 
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/ll_info"
         android:layout_width="378dp"
@@ -211,21 +213,6 @@
                 android:text="@string/heavy"
                 android:textColor="@color/white" />
         </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_buttons"
-        android:layout_width="106dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="63dp"
-        android:orientation="vertical"
-        android:padding="5dp"
-        tools:context=".MainActivity">
-
         <Button
             android:id="@+id/button_submit"
             android:layout_width="wrap_content"
@@ -244,6 +231,5 @@
             android:layout_marginEnd="1dp"
             android:text="@string/home" />
     </LinearLayout>
-
-
+    </ScrollView>
 </RelativeLayout>
