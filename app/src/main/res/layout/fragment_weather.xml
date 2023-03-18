@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@color/blue"
     tools:context=".MainActivity" >
 
     <LinearLayout
@@ -17,6 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Enter location:"
             android:layout_weight="0"
+            android:textColor="@color/white"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -24,6 +26,7 @@
             tools:text="City,Country"
             android:layout_weight="1"
             android:id="@+id/et_location"
+            android:textColor="@color/white"
             />
         <Button
             android:layout_width="wrap_content"
@@ -39,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ll"
         android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
         />
 
     <TextView
@@ -47,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_temp"
         android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
         />
 
     <TextView
@@ -55,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_pressure"
         android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
         />
 
     <TextView
@@ -63,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_humidity"
         android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
         />
 
     <TextView
@@ -71,6 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_wind_speed"
         android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
         />
 
 </RelativeLayout>

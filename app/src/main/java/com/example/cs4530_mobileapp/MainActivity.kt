@@ -198,9 +198,10 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                         mBundle.putFloat("BMI", mBMI!!)
                         mBundle.putInt("Calories", mDailyCalories!!)
                         homePageFragment.arguments = mBundle
-
+                        //if phone set fl
                         fTrans.replace(R.id.fl_fragContainer, homePageFragment, "current_frag")
                         fTrans.commit()
+                        //if tablet nothing
                     }
                     "user info" -> {
                         val mBundle = Bundle()
