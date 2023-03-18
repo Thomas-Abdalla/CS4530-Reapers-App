@@ -31,7 +31,6 @@ class WeatherFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       val bundle = this.arguments
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_weather, container, false)
         //Get the edit text and all the text views
@@ -43,17 +42,11 @@ class WeatherFragment : Fragment(), View.OnClickListener {
             val temp = savedInstanceState.getString("tvTemp")
             val hum = savedInstanceState.getString("tvHum")
             val press = savedInstanceState.getString("tvPress")
-            lat = savedInstanceState.getString("lat")
-            long = savedInstanceState.getString("long")
             if (temp != null) mTvTemp!!.text = "" + temp
             if (hum != null) mTvHum!!.text = "" + hum
             if (press != null) mTvPress!!.text = "" + press
         }
-        else
-        {
-            lat = bundle!!.getString("lat")
-            long = bundle!!.getString("long")
-        }
+
         mFetchWeatherTask.setWeakReference(this) //make sure we're always pointing to current version of fragment
         mBtSubmit = view.findViewById<View>(R.id.button_submit) as Button
         mBtSubmit!!.setOnClickListener(this)
@@ -77,12 +70,10 @@ class WeatherFragment : Fragment(), View.OnClickListener {
         outState.putString("tvTemp", mTvTemp!!.text.toString())
         outState.putString("tvHum", mTvHum!!.text.toString())
         outState.putString("tvPress", mTvPress!!.text.toString())
-        outState.putString("lat",lat)
-        outState.putString("long",long)
     }
 
     private fun loadWeatherData(location: String) {
-        mFetchWeatherTask.execute(lat+","+long)
+        mFetchWeatherTask.execute(location)
     }
 
     private class FetchWeatherTask {

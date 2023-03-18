@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     private var mBMI: Float? = 0.0f
     private var mDailyCalories: Int? = 0
     private var mSex: Int? = null          // 0 = male; 1 = female;
-    private var mActivityLvl: Int? = null // 0 = sedentary; 1 = moderate; 2 = very active;
-
+    private var mActivityLvl: Int? = null  // 0 = sedentary; 1 = moderate; 2 = very active;
+    private var mFrag = 0
     //Create the variable for the ImageView that holds the profile pic
     private var mIvPic: ImageView? = null
     private val isTablet: Boolean
@@ -53,20 +53,9 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Place M-D into bundle for frags
-        val mastDeetBundle = Bundle()
-        mastDeetBundle.putStringArrayList("item_list", listOfHeaders)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        val listFrag = MasterListFragment()
-        listFrag.arguments = mastDeetBundle
-        val fTrans = supportFragmentManager.beginTransaction()
-
-        if (isTablet) { //if tablet, only initialize the list side bar
-            setContentView(R.layout.activity_main_tab)
-            fTrans.replace(R.id.fl_listContainer_tab, listFrag, "md_list_frag")
-        } else {    //else if phone, initialize entire screen with list
-            setContentView(R.layout.activity_main_pho)
-            fTrans.replace(R.id.fl_fragContainer, listFrag, "current_frag")
+        if(savedInstanceState!= null && savedInstanceState.getString("frag") != null)
+        {
+            mFrag = savedInstanceState.getString("frag").toString().toInt()
         }
         val mLocationRequest: LocationRequest.Builder = LocationRequest.Builder(5000)
         mLocationRequest.setIntervalMillis(60000)
@@ -89,9 +78,13 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             return
         }
         val callback :myLocationCallback = myLocationCallback()
-        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest.build(), callback, null)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient.requestLocationUpdates(mLocationRequest.build(), callback, null)
 
-        fTrans.commit()
+            //Place M-D into bundle for frags
+            passData(arrayOf("frag change", "list"))
+
+
     }
 
     private val cameraActivity =
@@ -140,8 +133,8 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             return Environment.MEDIA_MOUNTED == state
         }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         if (mFullName != null)
             outState.putString("FullName", mFullName)
         if (mFirstName != null)
@@ -156,6 +149,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             outState.putInt("Weight", mWeight!!)
         if (mBMI != null)
             outState.putFloat("BMI", mBMI!!)
+        outState.putString("frag",mFrag!!.toString())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -174,6 +168,21 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             mWeight = savedInstanceState.getString("Weight").toString().toInt()
         if (savedInstanceState.getString("BMI") != null)
             mBMI = savedInstanceState.getString("BMI").toString().toFloat()
+        if(savedInstanceState.getString("frag") != null)
+            mFrag = savedInstanceState.getString("frag").toString().toInt()
+
+        if(mFrag == 1){
+            passData(arrayOf("frag change", "home"))
+        }
+        else if(mFrag == 2){
+            passData(arrayOf("frag change", "user info"))
+        }
+        else if(mFrag == 3){
+            passData(arrayOf("frag change", "hikes"))
+        }
+        else if(mFrag == 4){
+            passData(arrayOf("frag change", "weather"))
+        }
     }
 
     override fun onStop() {
@@ -219,18 +228,22 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 val fTrans = supportFragmentManager.beginTransaction()
                 when (newFrag) {
                     "list" -> {
-                        if (!isTablet) {
-                            val mastDeetBundle = Bundle()
-                            mastDeetBundle.putStringArrayList("item_list", listOfHeaders)
-
-                            val listFrag = MasterListFragment()
-                            listFrag.arguments = mastDeetBundle
-
-                            fTrans.replace(R.id.fl_fragContainer, listFrag, "current_fragment")
-                            fTrans.commit()
+                        mFrag = 0
+                        val mastDeetBundle = Bundle()
+                        mastDeetBundle.putStringArrayList("item_list", listOfHeaders)
+                        val listFrag = MasterListFragment()
+                        listFrag.arguments = mastDeetBundle
+                        if (isTablet) { //if tablet, only initialize the list side bar
+                            setContentView(R.layout.activity_main_tab)
+                            fTrans.replace(R.id.fl_listContainer_tab, listFrag, "md_list_frag")
+                        } else {    //else if phone, initialize entire screen with list
+                            setContentView(R.layout.activity_main_pho)
+                            fTrans.replace(R.id.fl_fragContainer, listFrag, "current_frag")
                         }
+                        fTrans.commit()
                     }
                     "home" -> {
+                        mFrag = 1
                         val mBundle = Bundle()
                         val homePageFragment = HomePageFragment()
                         mBundle.putFloat("BMI", mBMI!!)
@@ -241,11 +254,29 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                         fTrans.commit()
                     }
                     "user info" -> {
+                        mFrag = 2
+                        val mBundle = Bundle()
+                        if(mFirstName != null)
+                        mBundle.putString("firstName",mFirstName)
+                        if(mLastName != null)
+                        mBundle.putString("lastName",mLastName)
+                        if(mAge != null)
+                        mBundle.putString("age",mAge.toString())
+                        if(mHeight != null)
+                        mBundle.putString("height",mHeight.toString())
+                        if(mWeight != null)
+                        mBundle.putString("weight",mWeight.toString())
+                        if(mSex != null)
+                        mBundle.putString("sex",mSex.toString())
+                        if(mActivityLvl != null)
+                        mBundle.putString("activity",mActivityLvl.toString())
                         val userInfoFragment = UserInfoFragment()
+                        userInfoFragment.arguments = mBundle
                         fTrans.replace(R.id.fl_fragContainer, userInfoFragment, "current_frag")
                         fTrans.commit()
                     }
                     "hikes" -> {
+                        mFrag =3
                         if (ActivityCompat.checkSelfPermission(
                                 this,
                                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -278,30 +309,8 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                             }
                     }
                     "weather" -> {
-                        if (ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                                this,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                            ActivityCompat.requestPermissions(
-                                this,
-                                arrayOf("android.permission.ACCESS_COARSE_LOCATION"),
-                                0
-                            )
-                            return
-                        }
-                        fusedLocationClient.lastLocation
-                            .addOnSuccessListener { location: Location? ->
-                                val lat = location?.latitude
-                                val long = location?.longitude
-                                val bundle:Bundle = Bundle()
-                                bundle.putString("lat",lat.toString())
-                                bundle.putString("long",long.toString())
+                        mFrag = 4
                                 val weatherFragment = WeatherFragment()
-                                weatherFragment.arguments = bundle
                                 fTrans.replace(
                                     R.id.fl_fragContainer,
                                     weatherFragment,
@@ -310,10 +319,11 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                                 fTrans.commit()
                             }
                     }
+
                 }
             }
         }
-    }
+
     override fun onDataPass(data: String?) {
         passData(arrayOf("frag change", data))
     }

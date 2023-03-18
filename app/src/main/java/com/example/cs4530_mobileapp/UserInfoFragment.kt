@@ -44,7 +44,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
     private var mIvPic: ImageView? = null
 
     //fragment stuff
-    var inBundle = arguments
+    var inBundle : Bundle? = null
     var mDataPasser: DataPassingInterface? = null
 
     interface DataPassingInterface {
@@ -66,6 +66,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        inBundle = arguments
         val view = inflater.inflate(R.layout.fragment_user_info, container, false)
 
         //Get the buttons
@@ -95,6 +96,53 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
         SBAge!!.setOnSeekBarChangeListener(this)
         SBWeight!!.setOnSeekBarChangeListener(this)
         SBHeight!!.setOnSeekBarChangeListener(this)
+        if(inBundle != null) {
+            if(inBundle!!.getString("firstName") != null)
+                mFirstName = inBundle!!.getString("firstName")
+            if(inBundle!!.getString("lastName") != null)
+                mLastName = inBundle!!.getString("lastName")
+            if(inBundle!!.getString("age") != null) {
+                SBAge?.progress = inBundle!!.getString("age").toString().toInt()
+                (view?.findViewById(R.id.tv_age_curr_value) as TextView).text =
+                    inBundle!!.getString("age").toString()
+            }
+            if(inBundle!!.getString("height") != null) {
+                SBHeight?.progress = inBundle!!.getString("height").toString().toInt()
+                (view?.findViewById(R.id.tv_height_curr_value) as TextView).text =
+                    inBundle!!.getString("height").toString()
+            }
+            if(inBundle!!.getString("weight") != null) {
+                SBWeight?.progress = inBundle!!.getString("weight").toString().toInt()
+                (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text = inBundle!!.getString("weight").toString()
+            }
+            if(inBundle!!.getString("sex") != null){
+            var sex: Int = inBundle!!.getString("sex").toString().toInt()
+            if (sex == 0) {
+                mRBMale?.isChecked = true
+            }
+            else if (sex == 1) {
+                mRBFemale?.isChecked = true
+            }
+
+             }
+            if(inBundle!!.getString("activity") != null) {
+                var act: Int = inBundle!!.getString("activity").toString().toInt()
+                if (act == 0) {
+                    mRBActLow?.isChecked = true
+                }
+                else if (act == 1) {
+                    mRBActMed?.isChecked = true
+                }
+                else if (act == 2) {
+                    mRBActHigh?.isChecked = true
+                }
+                if (mFirstName != null && mLastName != null)
+                {
+                    mFullName = mFirstName + " " + mLastName
+                    mEtFullName?.setText(mFullName)
+                }
+            }
+        }
 
 
         return view
@@ -103,18 +151,35 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
         when (seekBar.id) {
             R.id.sb_age -> {
                 var age = (view?.findViewById(R.id.sb_age) as SeekBar?)?.progress
-                (view?.findViewById(R.id.tv_age_curr_value) as TextView).text = age.toString()
+                try {
+                    (view?.findViewById(R.id.tv_age_curr_value) as TextView).text = age.toString()
+                }
+                catch (e : Exception){
+
+                }
             }
 
             R.id.sb_weight -> {
                 var weight = (view?.findViewById(R.id.sb_weight) as SeekBar?)?.progress
-                (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text = weight.toString()
+                try {
+                    (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text =
+                        weight.toString()
+                }
+                catch (e : Exception){
+
+                }
             }
 
 
             R.id.sb_height -> {
                 var height = (view?.findViewById(R.id.sb_height) as SeekBar?)?.progress
-                (view?.findViewById(R.id.tv_height_curr_value) as TextView).text = height.toString()
+                try {
+                    (view?.findViewById(R.id.tv_height_curr_value) as TextView).text =
+                        height.toString()
+                }
+                catch (e : Exception){
+
+                }
             }
 
 

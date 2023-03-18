@@ -8,16 +8,14 @@ import java.util.*
 import kotlin.Throws
 
 object NetworkUtils {
-    private const val BASE_URL = "http://api.openweathermap.org/data/2.5/weather?lat="
-    private const val LON = "&lon="
+    private const val BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q="
     private const val APPIDQUERY = "&appid="
     private const val app_id = "306cbb60c07c3edafb9446a16ab9f81c"
     @JvmStatic
     fun buildURLFromString(location: String): URL? {
         var myURL: URL? = null
         try {
-            val data = location.split(",")
-            myURL = URL(BASE_URL + data[0] + LON + data[1] + APPIDQUERY + app_id)
+            myURL = URL(BASE_URL + location + APPIDQUERY + app_id)
         } catch (e: MalformedURLException) {
             e.printStackTrace()
         }
