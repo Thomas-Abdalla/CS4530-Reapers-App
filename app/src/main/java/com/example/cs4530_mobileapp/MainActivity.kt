@@ -69,14 +69,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
             fTrans.commit()
         }
-
-
     }
-
-
-
-
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -176,10 +169,8 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                         mBundle.putFloat("BMI", mBMI!!)
                         mBundle.putInt("Calories", mDailyCalories!!)
                         homePageFragment.arguments = mBundle
-                        //if phone set fl TODO
                         fTrans.replace(R.id.fl_fragContainer, homePageFragment, "current_frag")
                         fTrans.commit()
-                        //if tablet nothing
                     }
                     "user info" -> {
                         val mBundle = Bundle()
