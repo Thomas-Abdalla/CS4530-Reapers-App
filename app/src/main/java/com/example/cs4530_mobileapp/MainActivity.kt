@@ -4,22 +4,13 @@ import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.location.Location
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.os.PersistableBundle
-import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
-import java.io.File
-import java.io.FileOutputStream
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
@@ -63,13 +54,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         val callback :myLocationCallback = myLocationCallback()
@@ -79,7 +63,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             //Place M-D into bundle for frags
         if(savedInstanceState == null)
             passData(arrayOf("frag change", "list"))
-        var frag = supportFragmentManager.findFragmentByTag("current_frag")
+        val frag = supportFragmentManager.findFragmentByTag("current_frag")
         val fTrans = supportFragmentManager.beginTransaction()
         if (frag != null) {
             fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
@@ -128,12 +112,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             mWeight = savedInstanceState.getString("Weight").toString().toInt()
         if (savedInstanceState.getString("BMI") != null)
             mBMI = savedInstanceState.getString("BMI").toString().toFloat()
-//        var frag = supportFragmentManager.findFragmentByTag("current_frag")
-//       val fTrans = supportFragmentManager.beginTransaction()
-//        if (frag != null) {
-//            fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
-//            fTrans.commit()
-//        }
     }
 
     override fun onStop() {
@@ -198,7 +176,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                         mBundle.putFloat("BMI", mBMI!!)
                         mBundle.putInt("Calories", mDailyCalories!!)
                         homePageFragment.arguments = mBundle
-                        //if phone set fl
+                        //if phone set fl TODO
                         fTrans.replace(R.id.fl_fragContainer, homePageFragment, "current_frag")
                         fTrans.commit()
                         //if tablet nothing

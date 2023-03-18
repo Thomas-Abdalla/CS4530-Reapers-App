@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import java.io.File
 import java.io.FileOutputStream
@@ -123,7 +122,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text = inBundle!!.getString("weight").toString()
             }
             if(inBundle!!.getString("sex") != null){
-            var sex: Int = inBundle!!.getString("sex").toString().toInt()
+            val sex: Int = inBundle!!.getString("sex").toString().toInt()
             if (sex == 0) {
                 mRBMale?.isChecked = true
             }
@@ -133,7 +132,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
 
              }
             if(inBundle!!.getString("activity") != null) {
-                var act: Int = inBundle!!.getString("activity").toString().toInt()
+                val act: Int = inBundle!!.getString("activity").toString().toInt()
                 if (act == 0) {
                     mRBActLow?.isChecked = true
                 }
@@ -151,7 +150,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
             }
         }
        val root = activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        mIvPic?.setImageURI(Uri.fromFile(File("$root/saved_images", "profilepic.jpg")));
+        mIvPic?.setImageURI(Uri.fromFile(File("$root/saved_images", "profilepic.jpg")))
 
 
         return view
@@ -161,26 +160,26 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
         super.onViewStateRestored(savedInstanceState)
 
         if(savedInstanceState != null) {
-            if(savedInstanceState!!.getString("firstName") != null)
-                mFirstName = savedInstanceState!!.getString("firstName")
-            if(savedInstanceState!!.getString("lastName") != null)
-                mLastName = savedInstanceState!!.getString("lastName")
-            if(savedInstanceState!!.getString("age") != null) {
-                SBAge?.progress = savedInstanceState!!.getString("age").toString().toInt()
+            if(savedInstanceState.getString("firstName") != null)
+                mFirstName = savedInstanceState.getString("firstName")
+            if(savedInstanceState.getString("lastName") != null)
+                mLastName = savedInstanceState.getString("lastName")
+            if(savedInstanceState.getString("age") != null) {
+                SBAge?.progress = savedInstanceState.getString("age").toString().toInt()
                 (view?.findViewById(R.id.tv_age_curr_value) as TextView).text =
-                    savedInstanceState!!.getString("age").toString()
+                    savedInstanceState.getString("age").toString()
             }
-            if(savedInstanceState!!.getString("height") != null) {
-                SBHeight?.progress = savedInstanceState!!.getString("height").toString().toInt()
+            if(savedInstanceState.getString("height") != null) {
+                SBHeight?.progress = savedInstanceState.getString("height").toString().toInt()
                 (view?.findViewById(R.id.tv_height_curr_value) as TextView).text =
-                    savedInstanceState!!.getString("height").toString()
+                    savedInstanceState.getString("height").toString()
             }
-            if(savedInstanceState!!.getString("weight") != null) {
-                SBWeight?.progress = savedInstanceState!!.getString("weight").toString().toInt()
+            if(savedInstanceState.getString("weight") != null) {
+                SBWeight?.progress = savedInstanceState.getString("weight").toString().toInt()
                 (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text = inBundle!!.getString("weight").toString()
             }
-            if(savedInstanceState!!.getString("sex") != null){
-                var sex: Int = savedInstanceState!!.getString("sex").toString().toInt()
+            if(savedInstanceState.getString("sex") != null){
+                val sex: Int = savedInstanceState.getString("sex").toString().toInt()
                 if (sex == 0) {
                     mRBMale?.isChecked = true
                 }
@@ -189,8 +188,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 }
 
             }
-            if(savedInstanceState!!.getString("act") != null) {
-                var act: Int = savedInstanceState!!.getString("act").toString().toInt()
+            if(savedInstanceState.getString("act") != null) {
+                val act: Int = savedInstanceState.getString("act").toString().toInt()
                 if (act == 0) {
                     mRBActLow?.isChecked = true
                 }
@@ -239,35 +238,35 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
         when (seekBar.id) {
             R.id.sb_age -> {
-                var age = (view?.findViewById(R.id.sb_age) as SeekBar?)?.progress
+                val age = (view?.findViewById(R.id.sb_age) as SeekBar?)?.progress
                 try {
                     (view?.findViewById(R.id.tv_age_curr_value) as TextView).text = age.toString()
                 }
                 catch (e : Exception){
-
+                    //do error handling here
                 }
             }
 
             R.id.sb_weight -> {
-                var weight = (view?.findViewById(R.id.sb_weight) as SeekBar?)?.progress
+                val weight = (view?.findViewById(R.id.sb_weight) as SeekBar?)?.progress
                 try {
                     (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text =
                         weight.toString()
                 }
                 catch (e : Exception){
-
+                    //do error handling here
                 }
             }
 
 
             R.id.sb_height -> {
-                var height = (view?.findViewById(R.id.sb_height) as SeekBar?)?.progress
+                val height = (view?.findViewById(R.id.sb_height) as SeekBar?)?.progress
                 try {
                     (view?.findViewById(R.id.tv_height_curr_value) as TextView).text =
                         height.toString()
                 }
                 catch (e : Exception){
-
+                    //do error handling here
                 }
             }
 
@@ -408,7 +407,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     2 -> { mDailyCalories = (mBMI!! * 1.725f).toInt() }
                 }
                 try {
-                    var dataToPass: Array<String?>? = arrayOf(
+                    val dataToPass: Array<String?> = arrayOf(
                         "user info data", mFirstName, mLastName, mAge.toString(),
                         mHeight.toString(), mWeight.toString(),
                         mBMI.toString(), mDailyCalories.toString(),
@@ -418,7 +417,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 }
                 catch(e: Exception)
                 {
-
+                    //do error handling here
                 }
 
             }
@@ -437,7 +436,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 }
                 if (mAge == null)
                 {
-                    mAge = 18;
+                    mAge = 18
                     Toast.makeText(
                         activity,
                         "Age left blank!",
@@ -446,7 +445,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 }
                 if (mHeight == null)
                 {
-                    mHeight = 70;
+                    mHeight = 70
                     Toast.makeText(
                         activity,
                         "Height left blank!",
@@ -455,7 +454,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 }
                 if (mWeight == null)
                 {
-                    mWeight = 200;
+                    mWeight = 200
                     Toast.makeText(
                         activity,
                         "Weight left blank!",
@@ -473,7 +472,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 }
                 if (mActivityLvl == null)
                 {
-                    mActivityLvl = 1;
+                    mActivityLvl = 1
                     Toast.makeText(
                         activity,
                         "Activity Level left blank!",
@@ -496,7 +495,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     mDataPasser!!.passData(dataToPass)
                 }catch(e: Exception)
                 {
-                    var dataToPass : Array<String?>?= arrayOf("frag change", "list")
+                    val dataToPass : Array<String?> = arrayOf("frag change", "list")
                     mDataPasser!!.passData(dataToPass)
                 }
             }
@@ -555,95 +554,4 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
             val state = Environment.getExternalStorageState()
             return Environment.MEDIA_MOUNTED == state
         }
-
-   // private fun saveImage(finalBitmap: Bitmap?) {
-        //<--TODO--> This should be Activity side only (everything below)
-        //val root = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        //val myDir = File("$root/saved_images")
-        //myDir.mkdirs()
-        //val fname = "profilepic.jpg"
-        //val file = File(myDir, fname)
-        //if (file.exists())
-        //    file.delete()
-        //try
-        //{
-        //    val out = FileOutputStream(file)
-        //  finalBitmap!!.compress(Bitmap.CompressFormat.JPEG, 90, out)
-        //    out.flush()
-         //   out.close()
-         //   Toast.makeText(this, "Picture saved!", Toast.LENGTH_SHORT).show()
-        //}
-       // catch (e: java.lang.Exception)
-        //{
-       //     e.printStackTrace()
-        //}
-    //}
-
-//    private val isExternalStorageWritable: Boolean
-//        get() {
-//            val state = Environment.getExternalStorageState()
-//            return Environment.MEDIA_MOUNTED == state
-//        }
-//
-//    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-//        super.onSaveInstanceState(outState, outPersistentState)
-//        if(mFullName != null)
-//            outState.putString("FullName",mFullName)
-//        if(mFirstName!=null)
-//            outState.putString("FirstName",mFirstName)
-//        if(mLastName!=null)
-//            outState.putString("LastName",mLastName)
-//        if(mAge != null)
-//            outState.putInt("Age", mAge!!)
-//        if(mHeight != null)
-//            outState.putInt("Height", mHeight!!)
-//        if(mWeight != null)
-//            outState.putInt("Weight",mWeight!!)
-//        if(mBMI != null)
-//            outState.putFloat("BMI",mBMI!!)
-//    }
-//
-//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-//        super.onRestoreInstanceState(savedInstanceState)
-//        if(savedInstanceState.getString("FullName") != null)
-//            mFullName = savedInstanceState.getString("FullName").toString()
-//        if(savedInstanceState.getString("FirstName") != null)
-//            mFirstName = savedInstanceState.getString("FirstName").toString()
-//        if(savedInstanceState.getString("LastName") != null)
-//            mLastName = savedInstanceState.getString("LastName").toString()
-//        if(savedInstanceState.getString("Height") != null)
-//            mHeight = savedInstanceState.getString("Height").toString().toInt()
-//        if(savedInstanceState.getString("Age") != null)
-//            mAge = savedInstanceState.getString("Age").toString().toInt()
-//        if(savedInstanceState.getString("Weight") != null)
-//            mWeight = savedInstanceState.getString("Weight").toString().toInt()
-//        if(savedInstanceState.getString("BMI") != null)
-//            mBMI = savedInstanceState.getString("BMI").toString().toFloat()
-//    }
-
-//    override fun onStop() {
-//        super.onStop()
-//        val filename:String?
-//        var fileContents:String?
-//        if(mFullName != null) {
-//            filename = mFullName!!
-//            fileContents = ""
-//            fileContents += mFullName!!.toString() + "\n"
-//            fileContents += mFirstName!!.toString() + "\n"
-//            fileContents += mLastName!!.toString() + "\n"
-//            fileContents += mAge!!.toString() + "\n"
-//            fileContents += mHeight!!.toString() + "\n"
-//            fileContents += mWeight!!.toString() + "\n"
-//            fileContents += mBMI!!.toString() + "\n"
-//            try {
-//                val output = openFileOutput(filename, AppCompatActivity.MODE_PRIVATE)
-//                output.write(fileContents.toByteArray())
-//                output.close()
-//            } catch (e : Exception)
-//            {
-//                e.printStackTrace()
-//            }
-//        }
-//
-//    }
 }

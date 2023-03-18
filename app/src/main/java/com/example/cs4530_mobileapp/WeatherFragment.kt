@@ -24,8 +24,8 @@ class WeatherFragment : Fragment(), View.OnClickListener {
     private var mTvHum: TextView? = null
     private var mWeatherData: WeatherData? = null
     private var mBtSubmit: Button? = null
-    public var lat: String? = null
-    public var long: String? = null
+    var lat: String? = null
+    var long: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
