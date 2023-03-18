@@ -4,8 +4,10 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +15,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import java.io.File
+import java.io.FileOutputStream
 
 class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarChangeListener {
     //Create variables to hold the three strings
@@ -87,6 +92,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
         mRBActLow = view?.findViewById(R.id.rb_light) as RadioButton?
         mRBActMed = view?.findViewById(R.id.rb_moderate) as RadioButton?
         mRBActHigh = view?.findViewById(R.id.rb_heavy) as RadioButton?
+        mIvPic = view?.findViewById((R.id.iv_pic)) as ImageView?
 
         //Say that this class itself contains the listener.
         mButtonSubmit!!.setOnClickListener(this)
@@ -144,6 +150,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 }
             }
         }
+       val root = activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        mIvPic?.setImageURI(Uri.fromFile(File("$root/saved_images", "profilepic.jpg")));
 
 
         return view
@@ -399,11 +407,19 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     1 -> { mDailyCalories = (mBMI!! * 1.55f).toInt() }
                     2 -> { mDailyCalories = (mBMI!! * 1.725f).toInt() }
                 }
-                var dataToPass: Array<String?>? = arrayOf("user info data", mFirstName, mLastName, mAge.toString(),
-                    mHeight.toString(), mWeight.toString(),
-                    mBMI.toString(), mDailyCalories.toString(),
-                    mSex.toString(), mActivityLvl.toString())
-                mDataPasser!!.passData(dataToPass)
+                try {
+                    var dataToPass: Array<String?>? = arrayOf(
+                        "user info data", mFirstName, mLastName, mAge.toString(),
+                        mHeight.toString(), mWeight.toString(),
+                        mBMI.toString(), mDailyCalories.toString(),
+                        mSex.toString(), mActivityLvl.toString()
+                    )
+                    mDataPasser!!.passData(dataToPass)
+                }
+                catch(e: Exception)
+                {
+
+                }
 
             }
 
@@ -465,16 +481,24 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     ).show()
                 }
 
+                try {
+                    var dataToPass: Array<String?>? = arrayOf(
+                        "user info data", mFirstName, mLastName, mAge.toString(),
+                        mHeight.toString(), mWeight.toString(),
+                        mBMI.toString(), mDailyCalories.toString(),
+                        mSex.toString(), mActivityLvl.toString()
+                    )
+                    mDataPasser!!.passData(dataToPass)
 
-                var dataToPass: Array<String?>? = arrayOf("user info data", mFirstName, mLastName, mAge.toString(),
-                                                            mHeight.toString(), mWeight.toString(),
-                                                            mBMI.toString(), mDailyCalories.toString(),
-                                                            mSex.toString(), mActivityLvl.toString())
-                mDataPasser!!.passData(dataToPass)
 
-                //pass fragment change request to activity
-                dataToPass = arrayOf("frag change", "list")
-                mDataPasser!!.passData(dataToPass)
+                    //pass fragment change request to activity
+                    dataToPass = arrayOf("frag change", "list")
+                    mDataPasser!!.passData(dataToPass)
+                }catch(e: Exception)
+                {
+                    var dataToPass : Array<String?>?= arrayOf("frag change", "list")
+                    mDataPasser!!.passData(dataToPass)
+                }
             }
 
             R.id.button_pic -> {
@@ -489,20 +513,48 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
         }
     }
 
-    private val cameraActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            result ->
-        if(result.resultCode == AppCompatActivity.RESULT_OK) {
-            mIvPic = view?.findViewById<View>(R.id.iv_pic) as ImageView
-            val thumbnailImage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            {
-                result.data!!.getParcelableExtra("data")
-            } else
-            {
-                result.data!!.getParcelableExtra<Bitmap>("data")
+    private val cameraActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                val thumbnailImage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    result.data!!.getParcelableExtra("data")
+                } else {
+                    result.data!!.getParcelableExtra<Bitmap>("data")
+                }
+                mIvPic!!.setImageBitmap(thumbnailImage)
+
+                if (isExternalStorageWritable) {
+                    saveImage(thumbnailImage)
+                } else {
+                    Toast.makeText(activity, "External storage not writable.", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
             }
-            mIvPic!!.setImageBitmap(thumbnailImage)
+        }
+    private fun saveImage(finalBitmap: Bitmap?) {
+        val root = activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val myDir = File("$root/saved_images")
+        myDir.mkdirs()
+        val fname = "profilepic.jpg"
+        val file = File(myDir, fname)
+        if (file.exists())
+            file.delete()
+        try {
+            val out = FileOutputStream(file)
+            finalBitmap!!.compress(Bitmap.CompressFormat.JPEG, 90, out)
+            out.flush()
+            out.close()
+            Toast.makeText(activity, "Picture saved!", Toast.LENGTH_SHORT).show()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
         }
     }
+    private val isExternalStorageWritable: Boolean
+        get() {
+            val state = Environment.getExternalStorageState()
+            return Environment.MEDIA_MOUNTED == state
+        }
 
    // private fun saveImage(finalBitmap: Bitmap?) {
         //<--TODO--> This should be Activity side only (everything below)

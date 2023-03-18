@@ -89,51 +89,10 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
 
     }
 
-    private val cameraActivity =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                mIvPic = findViewById<View>(R.id.iv_pic) as ImageView
-                val thumbnailImage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    result.data!!.getParcelableExtra("data")
-                } else {
-                    result.data!!.getParcelableExtra<Bitmap>("data")
-                }
-                mIvPic!!.setImageBitmap(thumbnailImage)
 
-                if (isExternalStorageWritable) {
-                    saveImage(thumbnailImage)
-                } else {
-                    Toast.makeText(this, "External storage not writable.", Toast.LENGTH_SHORT)
-                        .show()
-                }
 
-            }
-        }
 
-    private fun saveImage(finalBitmap: Bitmap?) {
-        val root = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val myDir = File("$root/saved_images")
-        myDir.mkdirs()
-        val fname = "profilepic.jpg"
-        val file = File(myDir, fname)
-        if (file.exists())
-            file.delete()
-        try {
-            val out = FileOutputStream(file)
-            finalBitmap!!.compress(Bitmap.CompressFormat.JPEG, 90, out)
-            out.flush()
-            out.close()
-            Toast.makeText(this, "Picture saved!", Toast.LENGTH_SHORT).show()
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
-    }
 
-    private val isExternalStorageWritable: Boolean
-        get() {
-            val state = Environment.getExternalStorageState()
-            return Environment.MEDIA_MOUNTED == state
-        }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
