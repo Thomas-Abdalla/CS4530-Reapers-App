@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val mLocationRequest: LocationRequest.Builder = LocationRequest.Builder(5000)
         mLocationRequest.setIntervalMillis(60000)
         mLocationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY)
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            return
         }
         val callback = myLocationCallback()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
