@@ -69,8 +69,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
+            // for ActivityCompat#requestPermissions for more details
         }
         val callback :myLocationCallback = myLocationCallback()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
