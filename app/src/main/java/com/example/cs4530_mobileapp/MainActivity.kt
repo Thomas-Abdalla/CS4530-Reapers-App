@@ -13,7 +13,7 @@ import com.google.android.gms.location.*
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
-                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass {
+                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass,WeatherFragment.DataPassingInterface {
     //Create variables to hold the three strings
     private var mFullName: String? = null
     private var mFirstName: String? = null
