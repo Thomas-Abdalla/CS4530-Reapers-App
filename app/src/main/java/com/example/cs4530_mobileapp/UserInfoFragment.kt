@@ -243,7 +243,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     (view?.findViewById(R.id.tv_age_curr_value) as TextView).text = age.toString()
                 }
                 catch (e : Exception){
-                    //do error handling here
+                    //handle errors here
                 }
             }
 
@@ -254,7 +254,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                         weight.toString()
                 }
                 catch (e : Exception){
-                    //do error handling here
+                    //handle errors here
                 }
             }
 
@@ -266,7 +266,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                         height.toString()
                 }
                 catch (e : Exception){
-                    //do error handling here
+                    //handle errors here
                 }
             }
 
@@ -348,7 +348,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 SBHeight = getView()?.findViewById(R.id.sb_height) as SeekBar?
                 mHeight = Integer.parseInt(SBHeight?.progress.toString())
                 val splitByValues = Array(2){i->i.toString()}
-                if (mHeight == 0) { //throw warning if no data
+                if (mHeight == 0 || mHeight == null) { //throw warning if no data
                     Toast.makeText(
                         activity,
                         "Please enter data in all fields",
@@ -415,9 +415,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     )
                     mDataPasser!!.passData(dataToPass)
                 }
-                catch(e: Exception)
-                {
-                    //do error handling here
+                catch(e: Exception){
+                    //handle error here
                 }
 
             }
@@ -495,7 +494,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     mDataPasser!!.passData(dataToPass)
                 }catch(e: Exception)
                 {
-                    val dataToPass : Array<String?> = arrayOf("frag change", "list")
+                    val dataToPass : Array<String?>?= arrayOf("frag change", "list")
                     mDataPasser!!.passData(dataToPass)
                 }
             }
