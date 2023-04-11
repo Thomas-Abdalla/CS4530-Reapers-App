@@ -11,10 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 
-//Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
-                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass {
-    //Create variables to hold the three strings
+                    HomePageFragment.DataPassingInterface, MasterListFragment.OnDataPass {
     private var mFullName: String? = null
     private var mFirstName: String? = null
     private var mLastName: String? = null
@@ -34,8 +32,8 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         "Home Page",    //requirement #2 and #5
         "User Info",    //requirement #1
         "Hikes",        //requirement #3
-        "Weather"
-    )      //requirement #4
+        "Weather"       //requirement #4
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,29 +49,42 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
+            // TODO: Consider calling activityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details
+            // public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation for ActivityCompat#requestPermissions for more details
         }
         val callback = myLocationCallback()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.requestLocationUpdates(mLocationRequest.build(), callback, null)
 
-            //Place M-D into bundle for frags
-        if(savedInstanceState == null)
-            passData(arrayOf("frag change", "list"))
+        //master list prep
+        val mastDeetBundle = Bundle()
+        mastDeetBundle.putStringArrayList("item_list", listOfHeaders)
+        val listFrag = MasterListFragment()
+        listFrag.arguments = mastDeetBundle
+
+        //fragment change prep
         val frag = supportFragmentManager.findFragmentByTag("current_frag")
         val fTrans = supportFragmentManager.beginTransaction()
-        if (frag != null) {
-            fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
-            fTrans.commit()
+
+        if (isTablet) { //tablet layout initialization
+            setContentView(R.layout.activity_main_tab)
+            fTrans.replace(R.id.fl_listContainer_tab, listFrag, "md_list_frag")
+        } else { //[hone layout initialization
+            setContentView(R.layout.activity_main_pho)
+            fTrans.replace(R.id.fl_fragContainer, listFrag, "current_frag")
         }
+        fTrans.commit()
 
-
+//        //Place Master list into bundle for frags
+//        if(savedInstanceState == null)
+//            passData(arrayOf("frag change", "list"))
+//
+//        if (frag != null) {
+//            fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
+//            fTrans.commit()
+//        }
     }
 
 
@@ -166,15 +177,15 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 val fTrans = supportFragmentManager.beginTransaction()
                 when (newFrag) {
                     "list" -> {
+                        //prep master list
                         val mastDeetBundle = Bundle()
                         mastDeetBundle.putStringArrayList("item_list", listOfHeaders)
                         val listFrag = MasterListFragment()
                         listFrag.arguments = mastDeetBundle
+
                         if (isTablet) { //if tablet, only initialize the list side bar
-                            setContentView(R.layout.activity_main_tab)
                             fTrans.replace(R.id.fl_listContainer_tab, listFrag, "md_list_frag")
                         } else {    //else if phone, initialize entire screen with list
-                            setContentView(R.layout.activity_main_pho)
                             fTrans.replace(R.id.fl_fragContainer, listFrag, "current_frag")
                         }
                         fTrans.commit()
