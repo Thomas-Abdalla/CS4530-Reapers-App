@@ -13,7 +13,7 @@ import com.google.android.gms.location.*
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
-                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass {
+                    HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass,WeatherFragment.DataPassingInterface {
     //Create variables to hold the three strings
     private var mFullName: String? = null
     private var mFirstName: String? = null
@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
     private var mDailyCalories: Int? = 0
     private var mSex: Int? = null          // 0 = male; 1 = female;
     private var mActivityLvl: Int? = null  // 0 = sedentary; 1 = moderate; 2 = very active;
-    //Create the variable for the ImageView that holds the profile pic
     private val isTablet: Boolean
         get() = resources.getBoolean(R.bool.isTablet)
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -40,6 +39,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val mLocationRequest: LocationRequest.Builder = LocationRequest.Builder(5000)
         mLocationRequest.setIntervalMillis(60000)
         mLocationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY)
@@ -51,6 +51,13 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details
         }
         val callback = myLocationCallback()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -65,7 +72,14 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
             fTrans.commit()
         }
+
+
     }
+
+
+
+
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -101,6 +115,12 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             mWeight = savedInstanceState.getString("Weight").toString().toInt()
         if (savedInstanceState.getString("BMI") != null)
             mBMI = savedInstanceState.getString("BMI").toString().toFloat()
+//        var frag = supportFragmentManager.findFragmentByTag("current_frag")
+//       val fTrans = supportFragmentManager.beginTransaction()
+//        if (frag != null) {
+//            fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
+//            fTrans.commit()
+//        }
     }
 
     override fun onStop() {
@@ -165,6 +185,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                         mBundle.putFloat("BMI", mBMI!!)
                         mBundle.putInt("Calories", mDailyCalories!!)
                         homePageFragment.arguments = mBundle
+
                         fTrans.replace(R.id.fl_fragContainer, homePageFragment, "current_frag")
                         fTrans.commit()
                     }

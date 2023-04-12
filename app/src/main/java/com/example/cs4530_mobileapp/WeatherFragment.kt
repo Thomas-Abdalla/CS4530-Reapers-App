@@ -1,5 +1,6 @@
 package com.example.cs4530_mobileapp
 
+import android.content.Context
 import com.example.cs4530_mobileapp.NetworkUtils.buildURLFromString
 import com.example.cs4530_mobileapp.NetworkUtils.getDataFromURL
 import android.widget.EditText
@@ -24,6 +25,20 @@ class WeatherFragment : Fragment(), View.OnClickListener {
     private var mTvHum: TextView? = null
     private var mWeatherData: WeatherData? = null
     private var mBtSubmit: Button? = null
+    private var mButtonHome: Button? = null
+    var mDataPasser: DataPassingInterface? = null
+
+    interface DataPassingInterface {
+        fun passData(data: Array<String?>?)
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mDataPasser = try {
+            context as WeatherFragment.DataPassingInterface
+        } catch (e: ClassCastException) {
+            throw ClassCastException("$context must implement UserInfoFragment.DataPassingInterface")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +51,7 @@ class WeatherFragment : Fragment(), View.OnClickListener {
         mTvTemp = view.findViewById<View>(R.id.tv_temp) as TextView
         mTvPress = view.findViewById<View>(R.id.tv_pressure) as TextView
         mTvHum = view.findViewById<View>(R.id.tv_humidity) as TextView
+        mButtonHome = view?.findViewById(R.id.button_home) as Button?
         if (savedInstanceState != null) {
             val temp = savedInstanceState.getString("tvTemp")
             val hum = savedInstanceState.getString("tvHum")
@@ -48,6 +64,7 @@ class WeatherFragment : Fragment(), View.OnClickListener {
         mFetchWeatherTask.setWeakReference(this) //make sure we're always pointing to current version of fragment
         mBtSubmit = view.findViewById<View>(R.id.button_submit) as Button
         mBtSubmit!!.setOnClickListener(this)
+        mButtonHome!!.setOnClickListener(this)
         loadWeatherData("")
         return view
     }
@@ -59,6 +76,12 @@ class WeatherFragment : Fragment(), View.OnClickListener {
                 //Get the string from the edit text and sanitize the input
                 val inputFromEt = mEtLocation!!.text.toString().replace(' ', '&')
                 loadWeatherData(inputFromEt)
+            }
+            R.id.button_home -> {
+
+                //Get the string from the edit text and sanitize the input
+                var dataToPass: Array<String?>?  = arrayOf("frag change", "list")
+                mDataPasser!!.passData(dataToPass)
             }
         }
     }
