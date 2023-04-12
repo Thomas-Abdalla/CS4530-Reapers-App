@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         listFrag.arguments = mastDeetBundle
 
         //fragment change prep
-        val frag = supportFragmentManager.findFragmentByTag("current_frag")
         val fTrans = supportFragmentManager.beginTransaction()
 
         if (isTablet) { //tablet layout initialization
@@ -76,15 +75,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             fTrans.replace(R.id.fl_fragContainer, listFrag, "current_frag")
         }
         fTrans.commit()
-
-//        //Place Master list into bundle for frags
-//        if(savedInstanceState == null)
-//            passData(arrayOf("frag change", "list"))
-//
-//        if (frag != null) {
-//            fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
-//            fTrans.commit()
-//        }
     }
 
 
