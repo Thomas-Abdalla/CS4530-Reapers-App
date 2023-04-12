@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 
 class HomePageFragment : Fragment(), View.OnClickListener {
-    //initialize members
-    private var mBMI: Float? = null
-    private var mDailyCalories: Int? = null
+    //initialize VM member
+    private var mUserViewModel: UserViewModel? = null
 
     //initialize UI variables
     private var mButtonProfile: Button? = null
@@ -33,10 +34,11 @@ class HomePageFragment : Fragment(), View.OnClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
 
-        //receive arguments bundle
-        val inBundle = arguments
-        mBMI = inBundle!!.getFloat("BMI")
-        mDailyCalories = inBundle.getInt("Calories")
+        //Create VM instance
+        mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+
+        //Set VM Observer
+        mUserViewModel!!.data.observe(this, userObserver)
 
         //link .kt to .xml
         mButtonProfile = view?.findViewById(R.id.button_profile) as Button?
@@ -49,10 +51,6 @@ class HomePageFragment : Fragment(), View.OnClickListener {
         mButtonProfile!!.setOnClickListener(this)
         mButtonHikes!!.setOnClickListener(this)
         mButtonWeather!!.setOnClickListener(this)
-
-
-        mTVBMI!!.text = mBMI.toString()
-        mTVCalorie!!.text = mDailyCalories.toString()
 
         return view
     }
@@ -83,5 +81,11 @@ class HomePageFragment : Fragment(), View.OnClickListener {
                 mDataPasser!!.passData(arrayOf("frag change", "weather"))
             }
         }
+    }
+
+    private val userObserver: Observer<UserData> = Observer {
+        userData ->
+            mTVBMI?.text = userData.bMI.toString()
+            mTVCalorie?.text = userData.dailyCalories.toString()
     }
 }
