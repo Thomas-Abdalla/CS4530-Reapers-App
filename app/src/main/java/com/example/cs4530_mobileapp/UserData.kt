@@ -1,7 +1,6 @@
 package com.example.cs4530_mobileapp
 
 class UserData {
-    var fullName: String? = null
     var firstName: String? = null
     var lastName: String? = null
     var age: Int? = null
