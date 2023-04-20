@@ -9,11 +9,20 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
+import org.jetbrains.annotations.Nullable
+
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                     HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass,WeatherFragment.DataPassingInterface {
+
+    //declare VM variables
+    private var mWeatherViewModel: WeatherViewModel? = null
+    private var mUserViewModel: UserViewModel? = null
+
     //Create variables to hold the three strings
     private var mFullName: String? = null
     private var mFirstName: String? = null
@@ -51,8 +60,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
+            // TODO: Consider calling ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
@@ -73,13 +81,11 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             fTrans.commit()
         }
 
+        //initialize to instance of VMs
+        mWeatherViewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
+        mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
     }
-
-
-
-
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -150,17 +156,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
 
     override fun passData(data: Array<String?>?) {
         when (data!![0]) {
-            "user info data" -> {
-                mFirstName = data[1]
-                mLastName = data[2]
-                mAge = data[3]!!.toInt()
-                mHeight = data[4]!!.toInt()
-                mWeight = data[5]!!.toInt()
-                mBMI = data[6]!!.toFloat()
-                mDailyCalories = data[7]!!.toInt()
-                mSex = data[8]!!.toInt()
-                mActivityLvl = data[9]!!.toInt()
-            }
             "frag change" -> {
                 val newFrag: String = data[1]!!
                 val fTrans = supportFragmentManager.beginTransaction()

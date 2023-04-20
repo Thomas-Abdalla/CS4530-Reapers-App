@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 class HomePageFragment : Fragment(), View.OnClickListener {
-    //initialize VM member
-    private var mUserViewModel: UserViewModel? = null
+    //import parent VM
+    private val mUserViewModel: UserViewModel by activityViewModels()
 
     //initialize UI variables
     private var mButtonProfile: Button? = null
@@ -21,6 +22,7 @@ class HomePageFragment : Fragment(), View.OnClickListener {
     private var mButtonWeather: Button? = null
     private var mTVBMI: TextView? = null
     private var mTVCalorie: TextView? = null
+
     //fun fragment function
     private var mDataPasser: DataPassingInterface? = null
     interface DataPassingInterface {
@@ -34,11 +36,8 @@ class HomePageFragment : Fragment(), View.OnClickListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
 
-        //Create VM instance
-        mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
         //Set VM Observer
-        mUserViewModel!!.data.observe(this, userObserver)
+        mUserViewModel.data.observe(this, userObserver)
 
         //link .kt to .xml
         mButtonProfile = view?.findViewById(R.id.button_profile) as Button?
@@ -73,7 +72,6 @@ class HomePageFragment : Fragment(), View.OnClickListener {
                 mDataPasser!!.passData(buttonClicked)
             }
             R.id.button_hikes ->{
-
                 mDataPasser!!.passData(arrayOf("frag change", "hikes"))
                 }
 
@@ -85,6 +83,8 @@ class HomePageFragment : Fragment(), View.OnClickListener {
 
     private val userObserver: Observer<UserData> = Observer {
         userData ->
+            userData.calcCals()
+            userData.calcBMI()
             mTVBMI?.text = userData.bMI.toString()
             mTVCalorie?.text = userData.dailyCalories.toString()
     }

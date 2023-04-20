@@ -22,13 +22,22 @@ class UserData {
     }
 
     fun calcCals() {
-        if (bMI != null)
-        //Harris Benedict Equation
-        when(activityLvl) {
-            0 -> { dailyCalories = (bMI!! * 1.2f).toInt() }
-            1 -> { dailyCalories = (bMI!! * 1.55f).toInt() }
-            2 -> { dailyCalories = (bMI!! * 1.725f).toInt() }
-            else -> { dailyCalories = null }
+        if (bMI != null){
+            //Harris Benedict Equation
+            when(activityLvl) {
+                0 -> {
+                    dailyCalories = (bMI!! * 1.2f).toInt()
+                }
+                1 -> {
+                    dailyCalories = (bMI!! * 1.55f).toInt()
+                }
+                2 -> {
+                    dailyCalories = (bMI!! * 1.725f).toInt()
+                }
+                else -> {
+                    dailyCalories = null
+                }
+            }
         }
     }
 

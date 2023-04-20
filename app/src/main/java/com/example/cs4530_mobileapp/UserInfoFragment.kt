@@ -17,14 +17,15 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import java.io.File
 import java.io.FileOutputStream
 
 class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarChangeListener {
-    //Create variable for VM
-    private var mUserViewModel: UserViewModel? = null
+    //import parent VM
+    private val mUserViewModel: UserViewModel by activityViewModels()
 
     //Create variables for the UI elements that we need to control
     private var mButtonSubmit: Button? = null
@@ -68,11 +69,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_info, container, false)
 
-        //Create instance of VM
-        mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
         //Set VM observer
-        mUserViewModel!!.data.observe(this, userObserver)
+        mUserViewModel.data.observe(this, userObserver)
 
         //Get the buttons
         mButtonSubmit = view?.findViewById(R.id.button_submit) as Button?
@@ -146,7 +144,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                             ).show()
                         }
                         2 -> {
-                            mUserViewModel!!.setName(splitStrings[0], splitStrings[1])
+                            mUserViewModel.setName(splitStrings[0], splitStrings[1])
                         }
                         else -> {
                             Toast.makeText(
@@ -161,7 +159,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 //Next get the age from the age NumberPicker
                 mSBAge = getView()?.findViewById(R.id.sb_age) as SeekBar?
                 val tempAge = Integer.parseInt(mSBAge?.progress.toString())
-                mUserViewModel!!.setAge(tempAge)
+                mUserViewModel.setAge(tempAge)
                 if (tempAge == 0){ //throw warning if incorrect data
                     Toast.makeText(
                         activity,
@@ -173,7 +171,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 //Next get the height from the height NumberPicker
                 mSBHeight = getView()?.findViewById(R.id.sb_height) as SeekBar?
                 val tempHeight = Integer.parseInt(mSBHeight?.progress.toString())
-                mUserViewModel!!.setHeight(tempHeight)
+                mUserViewModel.setHeight(tempHeight)
                 Array(2){i->i.toString()}
                 if (tempHeight == 0) { //throw warning if no data
                     Toast.makeText(
@@ -186,7 +184,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 //Next get the weight from the weight EditTexts
                 mSBWeight = getView()?.findViewById(R.id.sb_weight) as SeekBar?
                 val tempWeight = Integer.parseInt(mSBWeight?.progress.toString())
-                mUserViewModel!!.setWeight(tempWeight)
+                mUserViewModel.setWeight(tempWeight)
                 if (tempWeight == 0) { //throw warning if bad data
                     Toast.makeText(
                         activity,
@@ -197,9 +195,9 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
 
                 //Next check Sex Radio Group inputs
                 if (mRBMale!!.isChecked)
-                    mUserViewModel!!.setSex(0)
+                    mUserViewModel.setSex(0)
                 else if (mRBFemale!!.isChecked)
-                    mUserViewModel!!.setSex(1)
+                    mUserViewModel.setSex(1)
                 else
                     Toast.makeText(
                         activity,
@@ -209,20 +207,17 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
 
                 //Next check Activity Level Radio Group inputs
                 if (mRBActLow!!.isChecked)
-                    mUserViewModel!!.setActLvl(0)
+                    mUserViewModel.setActLvl(0)
                 else if (mRBActMed!!.isChecked)
-                    mUserViewModel!!.setActLvl(1)
+                    mUserViewModel.setActLvl(1)
                 else if (mRBActHigh!!.isChecked)
-                    mUserViewModel!!.setActLvl(2)
+                    mUserViewModel.setActLvl(2)
                 else
                     Toast.makeText(
                         activity,
                         "Please select an activity level for BMI and calorie calculation",
                         Toast.LENGTH_SHORT
                     ).show()
-
-                mUserViewModel!!.calcBmi()
-                mUserViewModel!!.calcCals()
             }
 
             R.id.button_pic -> {
@@ -303,22 +298,12 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     0 -> mRBMale?.isChecked = true
                     1 -> mRBFemale?.isChecked = true
                 }
-                val alvl = userData.activityLvl!!
-                when(alvl){
+                val aLvl = userData.activityLvl!!
+                when(aLvl){
                     0 -> mRBActLow?.isChecked = true
                     1 -> mRBActMed?.isChecked = true
                     2 -> mRBActHigh?.isChecked = true
                 }
-            } else { //if no user info, use defaults
-                mEtFullName?.setText("John Doe")
-                mSBAge?.progress = 18
-                (view?.findViewById(R.id.tv_age_curr_value) as TextView).text = "18"
-                mSBHeight?.progress = 70
-                (view?.findViewById(R.id.tv_height_curr_value) as TextView).text = "70"
-                mSBWeight?.progress = 200
-                (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text = "200"
-                mRBMale?.isChecked = true
-                mRBActMed?.isChecked = true
             }
     }
 
