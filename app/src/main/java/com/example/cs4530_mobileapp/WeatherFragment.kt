@@ -12,11 +12,18 @@ import androidx.core.os.HandlerCompat
 import android.os.Looper
 import android.view.View
 import android.widget.Button
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import android.app.Application
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.internal.ContextUtils
 import org.json.JSONException
 import java.lang.Exception
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
+import kotlin.math.roundToInt
 
 class WeatherFragment : Fragment(), View.OnClickListener {
     private var mEtLocation: EditText? = null
@@ -26,6 +33,7 @@ class WeatherFragment : Fragment(), View.OnClickListener {
     private var mWeatherData: WeatherData? = null
     private var mBtSubmit: Button? = null
     private var mButtonHome: Button? = null
+    private var mRecyclerView: RecyclerView? = null
     var mDataPasser: DataPassingInterface? = null
 
     interface DataPassingInterface {
@@ -65,7 +73,6 @@ class WeatherFragment : Fragment(), View.OnClickListener {
         mBtSubmit = view.findViewById<View>(R.id.button_submit) as Button
         mBtSubmit!!.setOnClickListener(this)
         mButtonHome!!.setOnClickListener(this)
-        loadWeatherData("")
         return view
     }
 
@@ -143,4 +150,22 @@ class WeatherFragment : Fragment(), View.OnClickListener {
     companion object {
         private val mFetchWeatherTask = FetchWeatherTask()
     }
+    private val liveDataObserver: Observer<WeatherData> =
+        Observer { weatherData -> // Update the UI if this data variable changes
+            if (weatherData != null) {
+                mTvTemp!!.text = "" + (weatherData.temperature.temp - 273.15).roundToInt() + " C"
+                mTvHum!!.text = "" + weatherData.currentCondition.humidity + "%"
+                mTvPress!!.text = "" + weatherData.currentCondition.pressure + " hPa"
+            }
+        }
+
+    // This observer is triggered when the Flow object in the repository
+    // detects a change to the database (including at the start of the app)
+    private val flowObserver: Observer<List<WeatherTable>> =
+        Observer { weatherTableList ->
+            if (weatherTableList != null) {
+                // Pass the entire list to a RecyclerView
+                mRecyclerView!!.adapter = WeatherRVAdapter(weatherTableList)
+            }
+        }
 }

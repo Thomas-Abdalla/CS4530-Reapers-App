@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
@@ -20,10 +21,12 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                     HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass,WeatherFragment.DataPassingInterface {
 
     //declare VM variables
-    private var mWeatherViewModel: WeatherViewModel? = null
     private var mUserViewModel: UserViewModel? = null
 
     //Create variables to hold the three strings
+    public val mWeatherViewModel: WeatherViewModel by viewModels {
+        WeatherViewModelFactory(( application as WeatherApplication).repository)
+    }
     private var mFullName: String? = null
     private var mFirstName: String? = null
     private var mLastName: String? = null
@@ -82,7 +85,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         }
 
         //initialize to instance of VMs
-        mWeatherViewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
         mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
     }

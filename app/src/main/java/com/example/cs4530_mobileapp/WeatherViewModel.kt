@@ -1,59 +1,40 @@
 package com.example.cs4530_mobileapp
 
-import android.app.Application
-import android.os.Looper
-import androidx.core.os.HandlerCompat
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.cs4530_mobileapp.JSONWeatherUtils.getWeatherData
-import com.example.cs4530_mobileapp.NetworkUtils.buildURLFromString
-import com.example.cs4530_mobileapp.NetworkUtils.getDataFromURL
-import java.util.concurrent.Executors
+import androidx.lifecycle.*
 
-class WeatherViewModel(application: Application?) : AndroidViewModel(application!!) {
-    private val jsonData = MutableLiveData<WeatherData>()
-    private var mLocation: String? = null
+class WeatherViewModel(repository: WeatherRepository) : ViewModel() {
+    // Connect a live data object to the current bit of weather info
+    private val jsonData: LiveData<WeatherData> = repository.data
 
-    fun setLocation(location: String?){
-        mLocation = location
-        loadData()
+    //Use a second live data here to show entire contents of db
+    // This casts a flow in the repo as a live data so an observer in the view
+    // can watch it. If you want to observe variables in the repo from the viewmodel, use
+    // observeForever (not recommended as it's almost never needed)
+    val allCityWeather: LiveData<List<WeatherTable>> = repository.allCityWeather.asLiveData()
+
+    //The singleton repository. If our app maps to one process, the recommended
+    // pattern is to make repo and db singletons. That said, it's sometimes useful
+    // to have more than one repo so it doesn't become a kitchen sink class, but each
+    // of those repos could be singleton.
+    private var mWeatherRepository: WeatherRepository = repository
+
+    fun setLocation(location: String) {
+        // Simply pass the location to the repository
+        mWeatherRepository.setLocation(location)
     }
 
+    // Returns the data contained in the live data object
     val data: LiveData<WeatherData>
         get() = jsonData
+}
 
-    private fun loadData(){
-        if (mLocation != null)
-            LoadTask().execute(mLocation)
-    }
-
-    private inner class LoadTask { //TODO -> Replace BG Thread with Coroutine
-        val executorService = Executors.newSingleThreadExecutor()!!
-        val mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper())
-
-        fun execute(location: String?){
-            executorService.execute{
-                var jsonWeatherData: String?
-                val weatherDataURL = buildURLFromString(location!!)
-                jsonWeatherData = null
-                try{
-                    jsonWeatherData = getDataFromURL(weatherDataURL!!)
-                    jsonWeatherData?.let { postToMainThread(it) }
-                } catch (e: Exception){
-                    e.printStackTrace()
-                }
-            }
+// This factory class allows us to define custom constructors for the view model
+class WeatherViewModelFactory(private val repository: WeatherRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return WeatherViewModel(repository) as T
         }
-
-        private fun postToMainThread(retrievedJsonData: String){
-            mainThreadHandler.post {
-                try{
-                    jsonData.setValue(getWeatherData(retrievedJsonData))
-                } catch (e: Exception){
-                    e.printStackTrace()
-                }
-            }
-        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
