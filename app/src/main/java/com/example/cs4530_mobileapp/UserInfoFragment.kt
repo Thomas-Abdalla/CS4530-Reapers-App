@@ -26,6 +26,8 @@ import java.io.FileOutputStream
 class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarChangeListener {
     //import parent VM
     private val mUserViewModel: UserViewModel by activityViewModels()
+    //declare variable to update live data
+    private var mUserData: UserData = UserData();
 
     //Create variables for the UI elements that we need to control
     private var mButtonSubmit: Button? = null
@@ -45,7 +47,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
     private var mIvPic: ImageView? = null
 
     //fragment stuff
-    var mDataPasser: DataPassingInterface? = null
+    private var mDataPasser: DataPassingInterface? = null
 
     interface DataPassingInterface {
         fun passData(data: Array<String?>?)
@@ -144,7 +146,8 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                             ).show()
                         }
                         2 -> {
-                            mUserViewModel.setName(splitStrings[0], splitStrings[1])
+                            mUserData.firstName = splitStrings[0]
+                            mUserData.lastName = splitStrings[1]
                         }
                         else -> {
                             Toast.makeText(
@@ -159,7 +162,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 //Next get the age from the age NumberPicker
                 mSBAge = getView()?.findViewById(R.id.sb_age) as SeekBar?
                 val tempAge = Integer.parseInt(mSBAge?.progress.toString())
-                mUserViewModel.setAge(tempAge)
+                mUserData.age = tempAge
                 if (tempAge == 0){ //throw warning if incorrect data
                     Toast.makeText(
                         activity,
@@ -171,7 +174,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 //Next get the height from the height NumberPicker
                 mSBHeight = getView()?.findViewById(R.id.sb_height) as SeekBar?
                 val tempHeight = Integer.parseInt(mSBHeight?.progress.toString())
-                mUserViewModel.setHeight(tempHeight)
+                mUserData.height = tempHeight
                 Array(2){i->i.toString()}
                 if (tempHeight == 0) { //throw warning if no data
                     Toast.makeText(
@@ -184,7 +187,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                 //Next get the weight from the weight EditTexts
                 mSBWeight = getView()?.findViewById(R.id.sb_weight) as SeekBar?
                 val tempWeight = Integer.parseInt(mSBWeight?.progress.toString())
-                mUserViewModel.setWeight(tempWeight)
+                mUserData.weight = tempWeight
                 if (tempWeight == 0) { //throw warning if bad data
                     Toast.makeText(
                         activity,
@@ -195,9 +198,9 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
 
                 //Next check Sex Radio Group inputs
                 if (mRBMale!!.isChecked)
-                    mUserViewModel.setSex(0)
+                    mUserData.sex = 0
                 else if (mRBFemale!!.isChecked)
-                    mUserViewModel.setSex(1)
+                    mUserData.sex = 1
                 else
                     Toast.makeText(
                         activity,
@@ -207,17 +210,19 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
 
                 //Next check Activity Level Radio Group inputs
                 if (mRBActLow!!.isChecked)
-                    mUserViewModel.setActLvl(0)
+                    mUserData.activityLvl = 0
                 else if (mRBActMed!!.isChecked)
-                    mUserViewModel.setActLvl(1)
+                    mUserData.activityLvl = 1
                 else if (mRBActHigh!!.isChecked)
-                    mUserViewModel.setActLvl(2)
+                    mUserData.activityLvl = 2
                 else
                     Toast.makeText(
                         activity,
                         "Please select an activity level for BMI and calorie calculation",
                         Toast.LENGTH_SHORT
                     ).show()
+
+                mUserViewModel.setData(mUserData)
             }
 
             R.id.button_pic -> {
@@ -286,7 +291,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
     private val userObserver: Observer<UserData> = Observer {
         userData ->
             if(userData != null) { //populate relevant UI with appropriate data
-                mEtFullName?.setText(userData.firstName + " " + userData.lastName)
+                (view?.findViewById(R.id.et_name) as EditText).setText(userData.firstName + " " + userData.lastName)
                 mSBAge?.progress = userData.age!!
                 (view?.findViewById(R.id.tv_age_curr_value) as TextView).text = userData.age.toString()
                 mSBHeight?.progress = userData.height!!
