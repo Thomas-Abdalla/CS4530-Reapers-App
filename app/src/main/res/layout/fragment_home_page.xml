@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@color/blue">
+    android:background="@color/blue"
+    tools:ignore="HardcodedText">
 
     <Button
         android:id="@+id/button_profile"
@@ -16,7 +17,7 @@
         android:layout_marginEnd="10dp"
         android:text="Profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_hikes"
@@ -55,11 +56,11 @@
 
     <TextView
         android:id="@+id/tv_calorie_value"
-        android:layout_width="300dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:scaleX="2"
-        android:scaleY="2"
+        android:scaleX="3"
+        android:scaleY="3"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,12 +77,12 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_profile" />
+        app:layout_constraintTop_toBottomOf="@+id/button_profile"/>
 
     <TextView
         android:id="@+id/tv_bmi_value"
-        android:layout_width="300dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:scaleX="3"
         android:scaleY="3"

@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import java.io.File
 import java.io.FileOutputStream
 
@@ -27,7 +26,7 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
     //import parent VM
     private val mUserViewModel: UserViewModel by activityViewModels()
     //declare variable to update live data
-    private var mUserData: UserData = UserData();
+    private var mUserData: UserData = UserData()
 
     //Create variables for the UI elements that we need to control
     private var mButtonSubmit: Button? = null
