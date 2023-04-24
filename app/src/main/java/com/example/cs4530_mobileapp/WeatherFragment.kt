@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import android.app.Application
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.internal.ContextUtils
 import org.json.JSONException
@@ -35,6 +36,9 @@ class WeatherFragment : Fragment(), View.OnClickListener {
     private var mButtonHome: Button? = null
     private var mRecyclerView: RecyclerView? = null
     var mDataPasser: DataPassingInterface? = null
+    private val mWeatherViewModel: WeatherViewModel by viewModels {
+        WeatherViewModelFactory(( activity!!.application as WeatherApplication).repository)
+    }
 
     interface DataPassingInterface {
         fun passData(data: Array<String?>?)
@@ -73,6 +77,16 @@ class WeatherFragment : Fragment(), View.OnClickListener {
         mBtSubmit = view.findViewById<View>(R.id.button_submit) as Button
         mBtSubmit!!.setOnClickListener(this)
         mButtonHome!!.setOnClickListener(this)
+        mRecyclerView = view.findViewById<View>(R.id.rv_Master) as RecyclerView
+        //Tell Android that we know the size of the recyclerview
+        //doesn't change
+        mRecyclerView!!.setHasFixedSize(true)
+
+        //Set the layout manager
+        val layoutManager = LinearLayoutManager(context)
+        mRecyclerView!!.layoutManager = layoutManager
+        mWeatherViewModel.data.observe(this, liveDataObserver)
+        mWeatherViewModel.allCityWeather.observe(this, flowObserver)
         return view
     }
 
@@ -101,7 +115,7 @@ class WeatherFragment : Fragment(), View.OnClickListener {
     }
 
     private fun loadWeatherData(location: String) {
-        mFetchWeatherTask.execute(location)
+        mWeatherViewModel.setLocation(location!!)
     }
 
     private class FetchWeatherTask {

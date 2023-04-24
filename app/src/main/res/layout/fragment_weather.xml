@@ -80,6 +80,14 @@
         android:layout_alignParentLeft="true"
         android:textColor="@color/white"
         />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below = "@id/tv_wind_deg"
+        android:layout_above="@id/button_home"
+        android:scrollbars="vertical"
+        android:id="@+id/rv_Master"
+        />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
