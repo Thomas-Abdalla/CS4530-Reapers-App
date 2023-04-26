@@ -11,7 +11,7 @@ class UserData {
     var sex: Int? = null          // 0 = male; 1 = female;
     var activityLvl: Int? = null  // 0 = sedentary; 1 = moderate; 2 = very active;
 
-    fun calcBMI() {
+    fun calcCals() {
         if(weight != null && height != null && age != null) {
             when(sex) {
                 0 -> { bMI = (10 * weight!!.toFloat() + (height!!.toFloat() * 6.25f) - 5* age!!.toFloat() + 5.0f) }
@@ -21,7 +21,7 @@ class UserData {
         }
     }
 
-    fun calcCals() {
+    fun calcBMI() {
         if (bMI != null){
             //Harris Benedict Equation
             when(activityLvl) {
@@ -32,5 +32,4 @@ class UserData {
             }
         }
     }
-
 }
