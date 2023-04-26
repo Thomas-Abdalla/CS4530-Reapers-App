@@ -11,24 +11,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [WeatherTable::class], version = 1, exportSchema = false)
-abstract class WeatherRoomDatabase : RoomDatabase() {
+@Database(entities = [WeatherTable::class, UserTable::class], version = 1, exportSchema = false)
+abstract class HikingDatabase : RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
+    abstract fun userDao(): UserDao
 
     // Make the db singleton. Could in theory
     // make this an object class, but the companion object approach
     // is nicer (imo)
     companion object {
         @Volatile
-        private var mInstance: WeatherRoomDatabase? = null
+        private var mInstance: HikingDatabase? = null
         fun getDatabase(
             context: Context,
             scope : CoroutineScope
-        ): WeatherRoomDatabase {
+        ): HikingDatabase {
             return mInstance?: synchronized(this){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    WeatherRoomDatabase::class.java, "weather.db"
+                    HikingDatabase::class.java, "hiking.db"
                 )
                     .addCallback(RoomDatabaseCallback(scope))
                     .fallbackToDestructiveMigration()
@@ -40,19 +41,23 @@ abstract class WeatherRoomDatabase : RoomDatabase() {
 
         private class RoomDatabaseCallback(
                 private val scope: CoroutineScope
-        ): RoomDatabase.Callback() {
+        ): Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
                 mInstance?.let { database ->
                     scope.launch(Dispatchers.IO){
-                        populateDbTask(database.weatherDao())
+                        populateWeatherDbTask(database.weatherDao())
+                        populateUserDbTask(database.userDao())
                     }
                 }
             }
         }
 
-        suspend fun populateDbTask (weatherDao: WeatherDao) {
+        suspend fun populateWeatherDbTask (weatherDao: WeatherDao) {
            weatherDao.insert(WeatherTable("Dummy_loc","Dummy_data"))
+        }
+        suspend fun populateUserDbTask (userDao: UserDao) {
+            userDao.insert(UserTable(0,"John","Doe", 18, 70, 180, 0.0f, 0, 0, 2))
         }
     }
 }

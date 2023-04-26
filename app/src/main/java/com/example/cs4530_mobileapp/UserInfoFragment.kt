@@ -15,16 +15,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import java.io.File
 import java.io.FileOutputStream
 
 class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarChangeListener {
     //import parent VM
-    private val mUserViewModel: UserViewModel by activityViewModels()
+    private val mUserViewModel: UserViewModel by viewModels {
+        UserViewModelFactory((activity!!.application as HikingApplication).userRepository)
+    }
     //declare variable to update live data
     private var mUserData: UserData = UserData()
 

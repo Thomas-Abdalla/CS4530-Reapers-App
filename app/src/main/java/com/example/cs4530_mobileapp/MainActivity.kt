@@ -10,23 +10,22 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
-import org.jetbrains.annotations.Nullable
 
 
 //Implement View.onClickListener to listen to button clicks. This means we have to override onClick().
 class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
                     HomePageFragment.DataPassingInterface,MasterListFragment.OnDataPass,WeatherFragment.DataPassingInterface {
 
-    //declare VM variables
-    private var mUserViewModel: UserViewModel? = null
-
     //Create variables to hold the three strings
     public val mWeatherViewModel: WeatherViewModel by viewModels {
-        WeatherViewModelFactory(( application as WeatherApplication).repository)
+        WeatherViewModelFactory(( application as HikingApplication).weatherRepository)
     }
+    public val mUserViewModel: UserViewModel by viewModels {
+        UserViewModelFactory((application as HikingApplication).userRepository)
+    }
+
     private var mFullName: String? = null
     private var mFirstName: String? = null
     private var mLastName: String? = null
@@ -83,10 +82,6 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
             fTrans.replace(R.id.fl_fragContainer, frag, "current_frag")
             fTrans.commit()
         }
-
-        //initialize to instance of VMs
-        mUserViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -258,6 +253,7 @@ class MainActivity : AppCompatActivity(), UserInfoFragment.DataPassingInterface,
         passData(arrayOf("frag change", data))
     }
 }
+
 private class myLocationCallback : LocationCallback()
 {
 
