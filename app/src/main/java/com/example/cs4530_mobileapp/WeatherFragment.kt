@@ -37,7 +37,7 @@ class WeatherFragment : Fragment(), View.OnClickListener {
     private var mRecyclerView: RecyclerView? = null
     var mDataPasser: DataPassingInterface? = null
     private val mWeatherViewModel: WeatherViewModel by viewModels {
-        WeatherViewModelFactory(( activity!!.application as WeatherApplication).repository)
+        WeatherViewModelFactory(( activity!!.application as HikingApplication).weatherRepository)
     }
 
     interface DataPassingInterface {

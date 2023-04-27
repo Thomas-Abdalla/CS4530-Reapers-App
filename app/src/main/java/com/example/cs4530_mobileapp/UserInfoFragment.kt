@@ -325,6 +325,22 @@ class UserInfoFragment : Fragment(), View.OnClickListener,  SeekBar.OnSeekBarCha
                     //handle errors here
                 }
             }
+            R.id.sb_weight -> {
+                val weight = (view?.findViewById(R.id.sb_weight) as SeekBar?)?.progress
+                try {
+                    (view?.findViewById(R.id.tv_weight_curr_value) as TextView).text = weight.toString()
+                } catch (e: Exception) {
+                    //handle errors here
+                }
+            }
+            R.id.sb_height -> {
+                val height = (view?.findViewById(R.id.sb_height) as SeekBar?)?.progress
+                try {
+                    (view?.findViewById(R.id.tv_height_curr_value) as TextView).text = height.toString()
+                } catch (e: Exception) {
+                    //handle errors here
+                }
+            }
         }
     }
 

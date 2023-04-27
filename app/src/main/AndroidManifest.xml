@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name=".WeatherApplication"
         android:allowBackup="true"
         android:name=".HikingApplication"
         android:icon="@mipmap/ic_launcher"

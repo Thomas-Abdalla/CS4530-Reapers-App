@@ -9,11 +9,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 
 class HomePageFragment : Fragment(), View.OnClickListener {
     //import parent VM
-    private val mUserViewModel: UserViewModel by activityViewModels()
+    private val mUserViewModel: UserViewModel by viewModels {
+        UserViewModelFactory((activity!!.application as HikingApplication).userRepository)
+    }
 
     //initialize UI variables
     private var mButtonProfile: Button? = null
